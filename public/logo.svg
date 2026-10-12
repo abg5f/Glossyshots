@@ -1,25 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ff8a5b"/>
-      <stop offset="0.55" stop-color="#e2557a"/>
-      <stop offset="1" stop-color="#6a4bd6"/>
-    </linearGradient>
-    <filter id="sh" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="28" stdDeviation="34" flood-color="#1a0b2e" flood-opacity="0.45"/>
-    </filter>
-  </defs>
-  <rect x="32" y="32" width="960" height="960" rx="224" fill="url(#bg)"/>
-  <g filter="url(#sh)">
-    <rect x="212" y="282" width="600" height="460" rx="56" fill="#f7f5f2"/>
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9466"/><stop offset="1" stop-color="#e2493a"/></linearGradient></defs>
+  <rect x="32" y="32" width="960" height="960" rx="230" fill="url(#g)"/>
+  <g fill="none" stroke="#fff" stroke-width="84" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M232 400V292q0-60 60-60h108"/><path d="M624 232h108q60 0 60 60v108"/>
+    <path d="M792 624v108q0 60-60 60H624"/><path d="M400 792H292q-60 0-60-60V624"/>
   </g>
-  <rect x="212" y="282" width="600" height="96" rx="56" fill="#ece8e3"/>
-  <rect x="212" y="330" width="600" height="48" fill="#ece8e3"/>
-  <circle cx="276" cy="330" r="16" fill="#e2557a"/>
-  <circle cx="326" cy="330" r="16" fill="#cfc8c0"/>
-  <circle cx="376" cy="330" r="16" fill="#cfc8c0"/>
-  <rect x="272" y="438" width="300" height="34" rx="17" fill="#d9d3cc"/>
-  <rect x="272" y="502" width="480" height="34" rx="17" fill="#e6e1db"/>
-  <rect x="272" y="566" width="400" height="34" rx="17" fill="#e6e1db"/>
-  <ellipse cx="652" cy="583" rx="138" ry="62" fill="none" stroke="#e2557a" stroke-width="18" transform="rotate(-6 652 583)"/>
+  <rect x="384" y="404" width="256" height="216" rx="44" fill="#fff"/>
 </svg>

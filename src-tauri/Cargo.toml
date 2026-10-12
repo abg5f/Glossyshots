@@ -1,6 +1,6 @@
 [package]
 name = "clicadre"
-version = "0.1.0"
+version = "0.1.1"
 description = "Clicadre : capture d'écran, floutage, annotations et fonds élégants"
 authors = ["abg5f"]
 license = "MIT"
