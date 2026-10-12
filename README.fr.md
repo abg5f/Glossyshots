@@ -28,7 +28,7 @@ Clicadre fait tout d'un seul geste, en cinq secondes environ :
 | **Confidentiel par conception** | Floutez ou pixelisez e-mails, noms ou jetons avant que quoi que ce soit ne quitte votre poste. Le masquage est inscrit dans les pixels exportés : impossible à annuler pour le destinataire. |
 | **Montrer du doigt** | Cercles, rectangles et flèches qui restent modifiables : déplacer, redimensionner, changer de couleur. |
 | **Joli par défaut** | La capture arrive sur un fond avec marge, coins arrondis et ombre douce. 8 fonds d'écran générés, 10 dégradés ou votre propre dégradé. |
-| **Rapide et léger** | Cœur natif en Rust, installeur d'environ 10 Mo, ouverture instantanée. Pas d'Electron. |
+| **Rapide et léger** | Cœur natif en Rust, installeur d'environ 3 Mo, ouverture instantanée. Pas d'Electron. |
 | **À vous** | Gratuit et open source (MIT). Pas de compte, pas de cloud, pas de télémétrie. Rien n'est envoyé nulle part. |
 | **Bilingue** | Français et anglais, modifiable à tout moment. |
 

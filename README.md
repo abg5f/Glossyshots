@@ -28,7 +28,7 @@ Clicadre does the whole job in one pass, in about five seconds:
 | **Private by design** | Blur or pixelate emails, names, tokens before anything leaves your machine. Redaction is baked into the exported pixels and cannot be undone by the recipient. |
 | **Point at things** | Circles, rectangles and arrows that stay editable: move them, resize them, recolor them. |
 | **Beautiful by default** | Your capture lands on a background with padding, rounded corners and a soft shadow. 8 generated wallpapers, 10 gradients, or your own two-color gradient. |
-| **Fast and light** | Native Rust core, ~10 MB installer, opens in a blink. No Electron. |
+| **Fast and light** | Native Rust core, ~3 MB installer, opens in a blink. No Electron. |
 | **Yours** | Free and open source (MIT). No account, no cloud, no telemetry. Nothing is sent anywhere. |
 | **Bilingual** | English and French, switchable at any time. |
 
