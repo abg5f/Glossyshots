@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clicadre</title>
+    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <link rel="stylesheet" href="/src/styles/overlay.css" />
+  </head>
+  <body>
+    <canvas id="shot" aria-hidden="true"></canvas>
+    <canvas id="ui" aria-label="Sélection de zone"></canvas>
+    <div id="badge" class="badge" hidden></div>
+    <div id="hint" class="hint" role="status">
+      <span data-i18n="overlay.hint"></span>
+      <span class="sep" aria-hidden="true"></span>
+      <kbd data-i18n="key.space"></kbd><span data-i18n="overlay.full"></span>
+      <span class="sep" aria-hidden="true"></span>
+      <kbd data-i18n="key.esc"></kbd><span data-i18n="overlay.cancel"></span>
+    </div>
+    <script type="module" src="/src/overlay/main.ts"></script>
+  </body>
+</html>

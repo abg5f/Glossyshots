@@ -1,0 +1,24 @@
+{
+  "name": "clicadre-video",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vidéo de présentation de Clicadre (Remotion)",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render:fr": "remotion render src/index.ts Demo-fr ../docs/media/clicadre-demo-fr.mp4",
+    "render:en": "remotion render src/index.ts Demo-en ../docs/media/clicadre-demo.mp4",
+    "render:gif": "remotion render src/index.ts Teaser-en ../docs/media/clicadre-demo.gif --codec=gif --every-nth-frame=2 --scale=0.5",
+    "still": "remotion still src/index.ts Demo-en ../docs/media/hero.png --frame=640"
+  },
+  "dependencies": {
+    "@remotion/cli": "^4.0.535",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "remotion": "^4.0.535"
+  },
+  "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^7.0.2"
+  }
+}

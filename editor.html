@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clicadre</title>
+    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <link rel="stylesheet" href="/src/styles/editor.css" />
+  </head>
+  <body>
+    <div class="app" id="app" data-state="empty">
+      <header class="titlebar" data-tauri-drag-region>
+        <div class="brand" data-tauri-drag-region>
+          <img src="/logo.svg" alt="" width="20" height="20" />
+          <span class="brand-name" data-tauri-drag-region>Clicadre</span>
+          <span class="meta" id="meta" data-tauri-drag-region></span>
+        </div>
+
+        <div class="actions">
+          <button class="icon-btn" id="btn-new" data-i18n-title="app.newCapture" data-kbd="N">
+            <i data-icon="capture"></i>
+          </button>
+          <span class="divider" aria-hidden="true"></span>
+          <button class="icon-btn" id="btn-undo" data-i18n-title="app.undo" data-kbd="Ctrl+Z" disabled>
+            <i data-icon="undo"></i>
+          </button>
+          <button class="icon-btn" id="btn-redo" data-i18n-title="app.redo" data-kbd="Ctrl+Y" disabled>
+            <i data-icon="redo"></i>
+          </button>
+          <button class="icon-btn" id="btn-settings" data-i18n-title="app.settings" aria-haspopup="dialog" aria-expanded="false">
+            <i data-icon="settings"></i>
+          </button>
+          <span class="divider" aria-hidden="true"></span>
+          <button class="btn btn-secondary" id="btn-save" data-i18n-title="app.save" data-kbd="Ctrl+S" disabled>
+            <i data-icon="save"></i><span data-i18n="app.save"></span>
+          </button>
+          <button class="btn btn-primary" id="btn-copy" data-i18n-title="app.copy" data-kbd="Ctrl+C" disabled>
+            <span class="btn-icon-swap"><i data-icon="copy"></i><i data-icon="check"></i></span>
+            <span data-i18n="app.copy"></span>
+          </button>
+        </div>
+
+        <div class="winctl">
+          <button id="win-min" data-i18n-title="app.minimize"><i data-icon="minimize"></i></button>
+          <button id="win-max" data-i18n-title="app.maximize"><i data-icon="maximize"></i></button>
+          <button id="win-close" class="is-close" data-i18n-title="app.close"><i data-icon="close"></i></button>
+        </div>
+      </header>
+
+      <nav class="rail" id="rail">
+        <button class="tool" data-tool="select" data-i18n-title="tool.select" data-kbd="V"><i data-icon="select"></i></button>
+        <span class="rail-sep" aria-hidden="true"></span>
+        <button class="tool" data-tool="blur" data-i18n-title="tool.blur" data-kbd="B"><i data-icon="blur"></i></button>
+        <button class="tool" data-tool="pixelate" data-i18n-title="tool.pixelate" data-kbd="P"><i data-icon="pixelate"></i></button>
+        <span class="rail-sep" aria-hidden="true"></span>
+        <button class="tool" data-tool="ellipse" data-i18n-title="tool.ellipse" data-kbd="O"><i data-icon="ellipse"></i></button>
+        <button class="tool" data-tool="rect" data-i18n-title="tool.rect" data-kbd="R"><i data-icon="rect"></i></button>
+        <button class="tool" data-tool="arrow" data-i18n-title="tool.arrow" data-kbd="A"><i data-icon="arrow"></i></button>
+      </nav>
+
+      <main class="stage" id="stage">
+        <canvas id="view"></canvas>
+
+        <div class="toolopts" id="toolopts" hidden>
+          <div class="opt-group" id="opt-colors" role="radiogroup" data-i18n-title="tool.color"></div>
+          <span class="opt-sep" id="opt-size-sep" aria-hidden="true"></span>
+          <div class="opt-group" id="opt-sizes" role="radiogroup" data-i18n-title="tool.width"></div>
+          <span class="opt-sep" id="opt-delete-sep" aria-hidden="true"></span>
+          <button class="icon-btn icon-btn-sm" id="opt-delete" data-i18n-title="tool.delete" data-kbd="Suppr"><i data-icon="trash"></i></button>
+          <span class="opt-hint" id="opt-hint" data-i18n="tool.redactHint"></span>
+        </div>
+
+        <section class="empty" id="empty">
+          <div class="empty-art" aria-hidden="true">
+            <div class="empty-window"><span></span><span></span><span></span></div>
+          </div>
+          <h1 data-i18n="empty.title"></h1>
+          <p id="empty-body"></p>
+          <button class="btn btn-primary btn-lg" id="btn-capture-now">
+            <i data-icon="capture"></i><span data-i18n="empty.cta"></span>
+          </button>
+          <div class="notice" id="snip-notice" hidden>
+            <i data-icon="alert"></i>
+            <p data-i18n="empty.snipping"></p>
+            <button class="btn btn-secondary" id="btn-free-printscreen" data-i18n="empty.snippingCta"></button>
+          </div>
+        </section>
+      </main>
+
+      <aside class="panel" id="panel">
+        <h2 class="panel-title" data-i18n="panel.background"></h2>
+
+        <h3 class="label" data-i18n="panel.wallpapers"></h3>
+        <div class="swatches" id="sw-wallpapers" role="radiogroup"></div>
+
+        <h3 class="label" data-i18n="panel.gradients"></h3>
+        <div class="swatches" id="sw-gradients" role="radiogroup"></div>
+
+        <div class="custom-row" id="custom-row">
+          <label class="color-input">
+            <input type="color" id="custom-from" />
+            <span class="sr-only" data-i18n="panel.from"></span>
+          </label>
+          <span class="custom-arrow" aria-hidden="true"></span>
+          <label class="color-input">
+            <input type="color" id="custom-to" />
+            <span class="sr-only" data-i18n="panel.to"></span>
+          </label>
+          <span class="custom-label" data-i18n="panel.custom"></span>
+        </div>
+
+        <h2 class="panel-title panel-title-2" data-i18n="panel.layout"></h2>
+        <div class="slider" data-key="padding" data-min="0" data-max="0.3" data-step="0.005" data-scale="100">
+          <label for="sl-padding" data-i18n="panel.padding"></label>
+          <output id="out-padding"></output>
+          <input type="range" id="sl-padding" />
+        </div>
+        <div class="slider" data-key="radius" data-min="0" data-max="40" data-step="1" data-scale="1">
+          <label for="sl-radius" data-i18n="panel.radius"></label>
+          <output id="out-radius"></output>
+          <input type="range" id="sl-radius" />
+        </div>
+        <div class="slider" data-key="shadow" data-min="0" data-max="1" data-step="0.01" data-scale="100">
+          <label for="sl-shadow" data-i18n="panel.shadow"></label>
+          <output id="out-shadow"></output>
+          <input type="range" id="sl-shadow" />
+        </div>
+        <p class="note" id="nobg-note" data-i18n="panel.noBgNote" hidden></p>
+      </aside>
+    </div>
+
+    <div class="popover" id="settings" role="dialog" aria-labelledby="settings-title" hidden>
+      <h2 id="settings-title" data-i18n="settings.title"></h2>
+
+      <div class="setting">
+        <span class="setting-label" data-i18n="settings.language"></span>
+        <div class="segmented" role="radiogroup" id="lang-switch">
+          <button role="radio" data-lang="fr">Français</button>
+          <button role="radio" data-lang="en">English</button>
+        </div>
+      </div>
+
+      <div class="setting setting-switch" id="row-printscreen">
+        <div>
+          <span class="setting-label" data-i18n="settings.printscreen"></span>
+          <p class="setting-help" data-i18n="settings.printscreenHelp"></p>
+        </div>
+        <button class="switch" role="switch" aria-checked="false" id="sw-printscreen"><span></span></button>
+      </div>
+
+      <div class="setting setting-switch">
+        <div>
+          <span class="setting-label" data-i18n="settings.autostart"></span>
+          <p class="setting-help" data-i18n="settings.autostartHelp"></p>
+        </div>
+        <button class="switch" role="switch" aria-checked="false" id="sw-autostart"><span></span></button>
+      </div>
+
+      <div class="setting">
+        <span class="setting-label" data-i18n="settings.shortcut"></span>
+        <kbd id="fallback-kbd"></kbd>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script type="module" src="/src/editor/main.ts"></script>
+  </body>
+</html>

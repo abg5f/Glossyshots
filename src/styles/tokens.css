@@ -1,0 +1,121 @@
+/*
+ * Clicadre : tokens partagés.
+ * Graphite légèrement bleuté, un seul accent corail réservé aux actions et à l'état actif.
+ * La capture (et son fond) est la seule surface colorée de l'écran.
+ */
+:root {
+  color-scheme: dark;
+
+  --hue: 262;
+  --bg: oklch(0.155 0.006 var(--hue));
+  --stage: oklch(0.135 0.006 var(--hue));
+  --surface: oklch(0.195 0.007 var(--hue));
+  --surface-2: oklch(0.235 0.008 var(--hue));
+  --surface-3: oklch(0.275 0.009 var(--hue));
+  --line: oklch(0.29 0.008 var(--hue));
+  --line-soft: oklch(0.24 0.007 var(--hue));
+
+  --text: oklch(0.95 0.004 var(--hue));
+  --text-2: oklch(0.76 0.008 var(--hue));
+  --text-3: oklch(0.6 0.01 var(--hue));
+
+  --accent: oklch(0.72 0.165 33);
+  --accent-hover: oklch(0.76 0.15 33);
+  --accent-press: oklch(0.67 0.17 33);
+  --on-accent: oklch(0.2 0.03 33);
+  --accent-soft: oklch(0.72 0.165 33 / 0.16);
+  --focus: oklch(0.8 0.12 33);
+  --danger: oklch(0.68 0.19 25);
+  --success: oklch(0.78 0.14 155);
+
+  --font: "Segoe UI Variable Text", "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-display: "Segoe UI Variable Display", "Segoe UI", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --mono: "Cascadia Mono", "SF Mono", ui-monospace, Consolas, monospace;
+
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-md: 0.875rem;
+  --fs-lg: 1.0625rem;
+  --fs-xl: 1.375rem;
+
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 12px;
+  --r-xl: 16px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* ease-out-quint */
+  --ease-in: cubic-bezier(0.64, 0, 0.78, 0);
+  --dur-1: 120ms;
+  --dur-2: 180ms;
+  --dur-3: 240ms;
+
+  --shadow-pop: 0 1px 0 oklch(1 0 0 / 0.04) inset, 0 12px 32px oklch(0.05 0.01 var(--hue) / 0.55),
+    0 2px 6px oklch(0.05 0.01 var(--hue) / 0.4);
+
+  --z-stage: 0;
+  --z-chrome: 10;
+  --z-float: 20;
+  --z-popover: 40;
+  --z-toast: 100;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 var(--fs-md) / 1.45 var(--font);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  overflow: hidden;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+}
+
+kbd {
+  font: 500 var(--fs-xs) / 1 var(--mono);
+  padding: 3px 6px;
+  border-radius: 5px;
+  background: oklch(1 0 0 / 0.08);
+  border: 1px solid oklch(1 0 0 / 0.1);
+  color: var(--text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 1ms !important;
+    animation-duration: 1ms !important;
+  }
+}

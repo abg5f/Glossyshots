@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Clicadre (aperçu navigateur)</title>
+    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <link rel="stylesheet" href="/src/styles/editor.css" />
+  </head>
+  <body>
+    <script type="module">
+      await import("/dev/mock.ts");
+      const html = await (await fetch("/editor.html")).text();
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      document.body.innerHTML = doc.body.innerHTML.replace(/<script[\s\S]*?<\/script>/g, "");
+      await import("/src/editor/main.ts");
+    </script>
+  </body>
+</html>

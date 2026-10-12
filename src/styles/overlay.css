@@ -1,0 +1,77 @@
+html,
+body {
+  background: oklch(0.1 0.005 262);
+  cursor: crosshair;
+}
+
+canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+.badge {
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 4px 8px;
+  border-radius: var(--r-sm);
+  background: oklch(0.16 0.008 262 / 0.92);
+  border: 1px solid oklch(1 0 0 / 0.1);
+  color: var(--text);
+  font: 500 var(--fs-xs) / 1.2 var(--mono);
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.hint {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: oklch(0.17 0.008 262 / 0.9);
+  border: 1px solid oklch(1 0 0 / 0.09);
+  box-shadow: var(--shadow-pop);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  pointer-events: none;
+  transform: translate(-50%, 0);
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+}
+
+.hint > span:first-child {
+  color: var(--text);
+}
+
+.hint .sep {
+  width: 1px;
+  height: 14px;
+  margin: 0 4px;
+  background: oklch(1 0 0 / 0.12);
+}
+
+.hint.is-hidden {
+  opacity: 0;
+  transform: translate(-50%, 8px);
+}
+
+body.is-entering .hint {
+  animation: rise var(--dur-3) var(--ease-out) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 10px);
+  }
+}
