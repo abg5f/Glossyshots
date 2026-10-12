@@ -41,7 +41,8 @@ let past: Annot[][] = [];
 let future: Annot[][] = [];
 let selectedId: number | null = null;
 let nextId = 1;
-let tool: Tool = saved.tool ?? "select";
+const TOOLS: Tool[] = ["select", "blur", "rect", "ellipse", "arrow"];
+let tool: Tool = saved.tool && TOOLS.includes(saved.tool) ? saved.tool : "select";
 let color = saved.color ?? COLORS[0];
 let size: Size = saved.size ?? 2;
 const look: Look = { ...defaultLook, ...saved.look };
@@ -700,7 +701,7 @@ function relabel(): void {
 
 // ───────────────────────────── Clavier ─────────────────────────────
 
-const TOOL_KEYS: Record<string, Tool> = { v: "select", b: "blur", p: "pixelate", r: "rect", o: "ellipse", a: "arrow" };
+const TOOL_KEYS: Record<string, Tool> = { v: "select", b: "blur", r: "rect", o: "ellipse", a: "arrow" };
 
 window.addEventListener("keydown", (e) => {
   const target = e.target as HTMLElement;

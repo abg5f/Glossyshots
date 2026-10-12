@@ -19,7 +19,7 @@ export const copy = {
     compare: "Même capture. Autre impression.",
     features: [
       "Impr. écran, une zone, c'est copié",
-      "Flou et pixelisation irréversibles",
+      "Flou irréversible des données privées",
       "Cercles, cadres, flèches modifiables",
       "18 fonds, marge, arrondi, ombre",
       "Natif Rust, environ 3 Mo, Windows et macOS",
@@ -47,7 +47,7 @@ export const copy = {
     compare: "Same capture. Different impression.",
     features: [
       "Print Screen, one area, copied",
-      "Irreversible blur and pixelation",
+      "Irreversible blur for private data",
       "Editable circles, boxes, arrows",
       "18 backgrounds, padding, corners, shadow",
       "Native Rust, about 3 MB, Windows and macOS",

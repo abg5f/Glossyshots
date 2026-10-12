@@ -3,7 +3,7 @@
 > Dernière mise à jour : 2026-10-12
 
 ## État actuel
-v0.1.0 fonctionnelle en dev (`npm run app:dev`) : capture de zone, flou, pixelisation, ellipse, rectangle, flèche, fonds générés, copier / enregistrer, zone de notification, FR/EN, réglage Impr. écran. README EN + FR, vidéo de démo FR/EN + GIF rendus dans `docs/media/`. Publié : https://github.com/abg5f/clicadre, release v0.1.0 (installeurs Windows .exe/.msi, macOS .dmg arm64/x64).
+v0.1.0 fonctionnelle en dev (`npm run app:dev`) : capture de zone, flou, ellipse, rectangle, flèche, fonds générés, copier / enregistrer, zone de notification, FR/EN, réglage Impr. écran. README EN + FR, vidéo de démo FR/EN + GIF rendus dans `docs/media/`. Publié : https://github.com/abg5f/clicadre, release v0.1.0 (installeurs Windows .exe/.msi, macOS .dmg arm64/x64).
 
 Testé : `cargo clippy -D warnings`, 3 tests unitaires Rust (découpe, format binaire), typecheck TS, build Vite, éditeur dans le navigateur avec backend simulé (flou, cercle, poignées, fonds, FR/EN, Ctrl+C).
 **Pas encore testé en conditions réelles** : capture native + overlay, presse-papiers Windows, bascule de la clé Impr. écran, autostart, macOS.

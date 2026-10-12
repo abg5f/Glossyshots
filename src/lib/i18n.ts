@@ -21,7 +21,6 @@ const fr = {
 
   "tool.select": "Sélection",
   "tool.blur": "Flou",
-  "tool.pixelate": "Pixeliser",
   "tool.rect": "Rectangle",
   "tool.ellipse": "Cercle",
   "tool.arrow": "Flèche",
@@ -87,7 +86,6 @@ const en: Record<Key, string> = {
 
   "tool.select": "Select",
   "tool.blur": "Blur",
-  "tool.pixelate": "Pixelate",
   "tool.rect": "Rectangle",
   "tool.ellipse": "Circle",
   "tool.arrow": "Arrow",

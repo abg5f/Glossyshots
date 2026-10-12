@@ -3,7 +3,7 @@
  * Accroche → capture brute → Impr. écran → flou & cercle → fonds → avant/après → atouts → fin.
  */
 import React from "react";
-import { AbsoluteFill, Easing, Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
+import { AbsoluteFill, Audio, Easing, Img, Sequence, interpolate, staticFile, useCurrentFrame } from "remotion";
 import { backgrounds, thumbnail } from "../../src/editor/backgrounds";
 import { icon, type IconName } from "../../src/lib/icons";
 import { copy, type Lang } from "./copy";
@@ -425,8 +425,8 @@ const RAIL = 64;
 const PANEL = 280;
 const STAGE: Box = { x: EDITOR.x + RAIL + 50, y: EDITOR.y + BAR + 46, w: EDITOR.w - RAIL - PANEL - 100, h: EDITOR.h - BAR - 92 };
 
-const TOOLS: IconName[] = ["select", "blur", "pixelate", "ellipse", "rect", "arrow"];
-const toolY = (i: number) => EDITOR.y + BAR + 22 + i * 56 + (i >= 1 ? 16 : 0) + (i >= 3 ? 16 : 0);
+const TOOLS: IconName[] = ["select", "blur", "ellipse", "rect", "arrow"];
+const toolY = (i: number) => EDITOR.y + BAR + 22 + i * 56 + (i >= 1 ? 16 : 0) + (i >= 2 ? 16 : 0);
 
 const thumbs = new Map<string, string>();
 const thumb = (id: string) => {
@@ -568,14 +568,14 @@ const Editor: React.FC<{ lang: Lang }> = ({ lang }) => {
     [90, A(APIKEY.x1, APIKEY.y1).x, A(APIKEY.x1, APIKEY.y1).y],
     [92, A(APIKEY.x1, APIKEY.y1).x, A(APIKEY.x1, APIKEY.y1).y],
     [116, A(APIKEY.x2, APIKEY.y2).x, A(APIKEY.x2, APIKEY.y2).y],
-    [126, railX, toolY(3) + 22],
+    [126, railX, toolY(2) + 22],
     [132, A(BUTTON.x1, BUTTON.y1).x, A(BUTTON.x1, BUTTON.y1).y],
     [134, A(BUTTON.x1, BUTTON.y1).x, A(BUTTON.x1, BUTTON.y1).y],
     [158, A(BUTTON.x2, BUTTON.y2).x, A(BUTTON.x2, BUTTON.y2).y],
     [170, copyBtn.x, copyBtn.y],
   ]);
   const down = (f >= 56 && f <= 82) || (f >= 90 && f <= 116) || (f >= 132 && f <= 158) || (f >= 170 && f <= 173);
-  const tool = f < 52 ? 0 : f < 128 ? 1 : 3;
+  const tool = f < 52 ? 0 : f < 128 ? 1 : 2;
   const copied = io(f, [171, 175], [0, 1]);
   const caption = f < 124 ? t.blur : t.circle;
   const chrome = io(f, [4, 22], [0, 1]);
@@ -618,7 +618,7 @@ const Backgrounds: React.FC<{ lang: Lang }> = ({ lang }) => {
   return (
     <AbsoluteFill>
       <div style={{ opacity: 1 - grow }}>
-        <EditorChrome lang={lang} tool={3} copied={1} bg="bloom" />
+        <EditorChrome lang={lang} tool={2} copied={1} bg="bloom" />
       </div>
       <ShotCanvas source={source} look={look} fit={BLOOM} box={box} annots={FINAL_ANNOTS} next={{ look: next, t: tNext }} />
       <div style={{ position: "absolute", left: 0, right: 0, top: 46, textAlign: "center", opacity: grow }}>
@@ -738,6 +738,56 @@ const Outro: React.FC<{ lang: Lang }> = ({ lang }) => {
   );
 };
 
+// ───────────────────────────── Bande-son ─────────────────────────────
+
+type Sfx = "click" | "mousedown" | "mouseup" | "key" | "shutter" | "pop" | "tick" | "whoosh" | "success" | "outro";
+
+/** Bruitages calés image par image sur les actions animées (frames absolues). */
+function cues(): [number, Sfx, number][] {
+  const B = SCENES.before[0];
+  const Cp = SCENES.capture[0];
+  const E = SCENES.editor[0];
+  const G = SCENES.backgrounds[0];
+  const list: [number, Sfx, number][] = [
+    [B, "whoosh", 0.35],
+    [B + 28, "pop", 0.6],
+    [B + 40, "pop", 0.6],
+    [B + 58, "pop", 0.6],
+    [Cp + 21, "key", 0.9],
+    [Cp + 48, "mousedown", 0.95],
+    [Cp + 90, "mouseup", 0.85],
+    [Cp + 92, "shutter", 1.0],
+    [E + 2, "whoosh", 0.4],
+    [E + 50, "click", 1.0],
+    [E + 57, "mousedown", 0.95],
+    [E + 82, "mouseup", 0.85],
+    [E + 91, "mousedown", 0.95],
+    [E + 116, "mouseup", 0.85],
+    [E + 127, "click", 1.0],
+    [E + 133, "mousedown", 0.95],
+    [E + 158, "mouseup", 0.85],
+    [E + 171, "click", 1.0],
+    [E + 174, "success", 0.45],
+    [G + 2, "whoosh", 0.4],
+    [SCENES.compare[0] + 2, "whoosh", 0.35],
+    [SCENES.outro[0] + 6, "outro", 0.55],
+  ];
+  for (let k = 0; k < CYCLE.length - 1; k++) list.push([G + 30 + k * 20 + 16, "tick", 0.85]);
+  for (let i = 0; i < 6; i++) list.push([SCENES.features[0] + 10 + i * 10, "pop", 0.4]);
+  return list;
+}
+
+const Soundtrack: React.FC = () => (
+  <>
+    <Audio src={staticFile("audio/music.wav")} volume={0.34} />
+    {cues().map(([from, name, volume], i) => (
+      <Sequence key={i} from={from} durationInFrames={90} layout="none">
+        <Audio src={staticFile(`audio/${name}.wav`)} volume={volume} />
+      </Sequence>
+    ))}
+  </>
+);
+
 // ───────────────────────────── Montage ─────────────────────────────
 
 export const SCENES = {
@@ -755,6 +805,7 @@ export const TOTAL = 1050;
 export const Demo: React.FC<{ lang: Lang }> = ({ lang }) => (
   <AbsoluteFill style={{ fontFamily: FONT }}>
     <Backdrop />
+    <Soundtrack />
     <Sequence from={SCENES.hook[0]} durationInFrames={SCENES.hook[1]}>
       <Hook lang={lang} />
     </Sequence>

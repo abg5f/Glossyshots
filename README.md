@@ -25,7 +25,7 @@ Clicadre does the whole job in one pass, in about five seconds:
 | | |
 |---|---|
 | **One key** | <kbd>Print Screen</kbd> opens a frozen view of your screen. Drag an area, release, done. |
-| **Private by design** | Blur or pixelate emails, names, tokens before anything leaves your machine. Redaction is baked into the exported pixels and cannot be undone by the recipient. |
+| **Private by design** | Blur emails, names, tokens before anything leaves your machine. Redaction is baked into the exported pixels and cannot be undone by the recipient. |
 | **Point at things** | Circles, rectangles and arrows that stay editable: move them, resize them, recolor them. |
 | **Beautiful by default** | Your capture lands on a background with padding, rounded corners and a soft shadow. 8 generated wallpapers, 10 gradients, or your own two-color gradient. |
 | **Fast and light** | Native Rust core, ~3 MB installer, opens in a blink. No Electron. |
@@ -40,14 +40,14 @@ Clicadre does the whole job in one pass, in about five seconds:
 | Open source | No | Yes | No | **Yes (MIT)** |
 | Windows | Yes | Yes | No | **Yes** |
 | macOS | No | No | Yes | **Yes** |
-| Blur / pixelate | No | Yes | Yes | **Yes** |
+| Blur | No | Yes | Yes | **Yes** |
 | One-click background, padding, shadow | No | Via image effects setup | Yes | **Yes, applied automatically** |
 | Learning curve | Low | High | Low | **Low** |
 
 ## Features
 
 - **Region capture** on the monitor under your cursor, with a pixel loupe and live dimensions. <kbd>Space</kbd> captures the full screen, <kbd>Esc</kbd> cancels.
-- **Redaction**: blur (<kbd>B</kbd>) and pixelate (<kbd>P</kbd>).
+- **Redaction**: blur (<kbd>B</kbd>) any area.
 - **Annotations**: circle (<kbd>O</kbd>), rectangle (<kbd>R</kbd>), arrow (<kbd>A</kbd>). Hold <kbd>Shift</kbd> for perfect circles, squares and 45° arrows.
 - **Backgrounds**: wallpapers, gradients, custom gradient, or none. Padding, corner radius and shadow sliders. Your last look is remembered.
 - **Output**: <kbd>Ctrl</kbd>+<kbd>C</kbd> copies the full-resolution image, <kbd>Ctrl</kbd>+<kbd>S</kbd> saves a PNG to `Pictures/Clicadre`.
@@ -85,7 +85,7 @@ flowchart LR
 1. **Capture.** A global shortcut wakes the Rust core, which grabs the monitor under the cursor with [`xcap`](https://github.com/nashaofu/xcap) and keeps the pixels in memory. Nothing is written to disk.
 2. **Select.** A borderless, always-on-top window shows the frozen screen. It is pre-created at startup and only paints once the image is ready, so it appears instantly with no flash. Pixels travel as raw binary over Tauri's IPC, never as base64.
 3. **Crop.** Your selection (converted to physical pixels, so it stays exact on HiDPI screens) is cropped natively.
-4. **Edit.** The editor draws everything on a single canvas. Blur and pixelate layers are computed once per capture, then only the regions you mark are composited, which keeps dragging at 60 fps even on 4K captures. Backgrounds are generated in code (mesh and linear gradients): no bundled images, sharp at any size.
+4. **Edit.** The editor draws everything on a single canvas. The blur layer is computed once per capture, then only the regions you mark are composited, which keeps dragging at 60 fps even on 4K captures. Backgrounds are generated in code (mesh and linear gradients): no bundled images, sharp at any size.
 5. **Export.** The same render function that draws the preview renders the full-resolution output, so what you see is exactly what you paste.
 
 ### Project layout

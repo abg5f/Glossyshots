@@ -4,7 +4,7 @@
  */
 import { backgrounds, customGradient, type Background } from "./backgrounds";
 
-export type Kind = "blur" | "pixelate" | "rect" | "ellipse" | "arrow";
+export type Kind = "blur" | "rect" | "ellipse" | "arrow";
 export type Size = 1 | 2 | 3;
 
 export interface Annot {
@@ -36,14 +36,13 @@ export const defaultLook: Look = {
   customTo: "#6a4bd6",
 };
 
-export const isRedaction = (k: Kind) => k === "blur" || k === "pixelate";
+export const isRedaction = (k: Kind) => k === "blur";
 
 /** Image source et ses versions masquées, calculées une seule fois à la demande. */
 export class Source {
   readonly w: number;
   readonly h: number;
   private blurred?: HTMLCanvasElement;
-  private pixelated?: HTMLCanvasElement;
 
   constructor(readonly bitmap: ImageBitmap) {
     this.w = bitmap.width;
@@ -66,14 +65,6 @@ export class Source {
     return this.blurred;
   }
 
-  pixelate(): HTMLCanvasElement {
-    if (!this.pixelated) {
-      const block = Math.min(28, Math.max(9, Math.round(Math.max(this.w, this.h) / 90)));
-      const tiny = scaled(this.bitmap, Math.ceil(this.w / block), Math.ceil(this.h / block), true);
-      this.pixelated = scaled(tiny, Math.ceil(this.w / block) * block, Math.ceil(this.h / block) * block, false);
-    }
-    return this.pixelated;
-  }
 }
 
 function scaled(src: CanvasImageSource, w: number, h: number, smooth: boolean): HTMLCanvasElement {
@@ -172,7 +163,7 @@ export function render(
     const w = Math.min(src.w, Math.ceil(b.x + b.w)) - x;
     const h = Math.min(src.h, Math.ceil(b.y + b.h)) - y;
     if (w <= 0 || h <= 0) continue;
-    const layer = a.kind === "blur" ? src.blur() : src.pixelate();
+    const layer = src.blur();
     ctx.drawImage(layer, x, y, w, h, pad + x, pad + y, w, h);
   }
   ctx.restore();

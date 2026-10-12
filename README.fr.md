@@ -25,7 +25,7 @@ Clicadre fait tout d'un seul geste, en cinq secondes environ :
 | | |
 |---|---|
 | **Une touche** | <kbd>Impr. écran</kbd> fige l'écran. Glissez sur une zone, relâchez, c'est tout. |
-| **Confidentiel par conception** | Floutez ou pixelisez e-mails, noms ou jetons avant que quoi que ce soit ne quitte votre poste. Le masquage est inscrit dans les pixels exportés : impossible à annuler pour le destinataire. |
+| **Confidentiel par conception** | Floutez e-mails, noms ou jetons avant que quoi que ce soit ne quitte votre poste. Le masquage est inscrit dans les pixels exportés : impossible à annuler pour le destinataire. |
 | **Montrer du doigt** | Cercles, rectangles et flèches qui restent modifiables : déplacer, redimensionner, changer de couleur. |
 | **Joli par défaut** | La capture arrive sur un fond avec marge, coins arrondis et ombre douce. 8 fonds d'écran générés, 10 dégradés ou votre propre dégradé. |
 | **Rapide et léger** | Cœur natif en Rust, installeur d'environ 3 Mo, ouverture instantanée. Pas d'Electron. |
@@ -40,14 +40,14 @@ Clicadre fait tout d'un seul geste, en cinq secondes environ :
 | Open source | Non | Oui | Non | **Oui (MIT)** |
 | Windows | Oui | Oui | Non | **Oui** |
 | macOS | Non | Non | Oui | **Oui** |
-| Flou / pixelisation | Non | Oui | Oui | **Oui** |
+| Flou | Non | Oui | Oui | **Oui** |
 | Fond, marge et ombre en un clic | Non | Via la configuration des effets | Oui | **Oui, appliqués automatiquement** |
 | Prise en main | Facile | Exigeante | Facile | **Facile** |
 
 ## Fonctionnalités
 
 - **Capture de zone** sur l'écran où se trouve la souris, avec loupe au pixel et dimensions en direct. <kbd>Espace</kbd> capture l'écran entier, <kbd>Échap</kbd> annule.
-- **Masquage** : flou (<kbd>B</kbd>) et pixelisation (<kbd>P</kbd>).
+- **Masquage** : flou (<kbd>B</kbd>) sur n'importe quelle zone.
 - **Annotations** : cercle (<kbd>O</kbd>), rectangle (<kbd>R</kbd>), flèche (<kbd>A</kbd>). Maintenez <kbd>Maj</kbd> pour un cercle ou un carré parfait et des flèches à 45°.
 - **Fonds** : fonds d'écran, dégradés, dégradé personnalisé ou aucun fond. Curseurs de marge, d'arrondi et d'ombre. Le dernier réglage est mémorisé.
 - **Sortie** : <kbd>Ctrl</kbd>+<kbd>C</kbd> copie l'image en pleine résolution, <kbd>Ctrl</kbd>+<kbd>S</kbd> enregistre un PNG dans `Images/Clicadre`.
@@ -85,7 +85,7 @@ flowchart LR
 1. **Capture.** Le raccourci global réveille le cœur Rust, qui capture l'écran sous la souris avec [`xcap`](https://github.com/nashaofu/xcap) et garde les pixels en mémoire. Rien n'est écrit sur le disque.
 2. **Sélection.** Une fenêtre sans bordure, toujours au premier plan, affiche l'écran figé. Créée dès le démarrage, elle ne s'affiche qu'une fois l'image peinte : apparition instantanée, sans flash. Les pixels transitent en binaire brut par l'IPC de Tauri, jamais en base64.
 3. **Découpe.** La sélection, convertie en pixels physiques pour rester exacte sur les écrans HiDPI, est découpée en natif.
-4. **Édition.** L'éditeur dessine tout sur un seul canvas. Les calques de flou et de pixelisation sont calculés une fois par capture, puis seules les zones marquées sont composées : le glisser reste à 60 i/s même sur une capture 4K. Les fonds sont générés par le code (dégradés maillés et linéaires) : aucune image embarquée, nets à toute taille.
+4. **Édition.** L'éditeur dessine tout sur un seul canvas. Le calque de flou est calculé une fois par capture, puis seules les zones marquées sont composées : le glisser reste à 60 i/s même sur une capture 4K. Les fonds sont générés par le code (dégradés maillés et linéaires) : aucune image embarquée, nets à toute taille.
 5. **Export.** La fonction qui dessine l'aperçu produit aussi l'image en pleine résolution : ce que vous voyez est exactement ce que vous collez.
 
 L'arborescence du projet et la stack technique sont détaillées dans le [README anglais](README.md#project-layout).
