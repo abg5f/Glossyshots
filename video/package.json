@@ -8,6 +8,7 @@
     "render:fr": "remotion render src/index.ts Demo-fr ../docs/media/glossyshots-demo-fr.mp4",
     "render:en": "remotion render src/index.ts Demo-en ../docs/media/glossyshots-demo.mp4",
     "render:gif": "remotion render src/index.ts Teaser-en ../docs/media/glossyshots-demo.gif --codec=gif --every-nth-frame=2 --scale=0.5",
+    "promo": "remotion still src/index.ts Promo-en ../docs/media/promo-en.png && remotion still src/index.ts Promo-fr ../docs/media/promo-fr.png",
     "still": "remotion still src/index.ts Demo-en ../docs/media/hero.png --frame=700"
   },
   "dependencies": {
