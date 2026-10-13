@@ -1,19 +1,19 @@
-# Context — Clicadre
+# Context — Glossyshots
 
 > Dernière mise à jour : 2026-10-12
 
 ## État actuel
-v0.1.0 fonctionnelle en dev (`npm run app:dev`) : capture de zone, flou, ellipse, rectangle, flèche, fonds générés, copier / enregistrer, zone de notification, FR/EN, réglage Impr. écran. README EN + FR, vidéo de démo FR/EN + GIF rendus dans `docs/media/`. Publié : https://github.com/abg5f/clicadre, release v0.1.0 (installeurs Windows .exe/.msi, macOS .dmg arm64/x64).
+v0.2.0 : app renommée **Glossyshots** (ex-Clicadre), dépôt `abg5f/Glossyshots` (redirection GitHub depuis `abg5f/clicadre`). Nouveautés : outil Loupe (zone surélevée avec ombre, zoom 100–400 %, déplaçable, reste de l'image normal/assombri/flouté) et flou sécurisé (aucun pixel masqué réutilisé ; vérifié : 0 pixel de différence entre deux secrets différents). Pixeliser retiré. Vidéo 40 s FR/EN avec scène Loupe, musique lo-fi et bruitages synthétisés.
 
-Testé : `cargo clippy -D warnings`, 3 tests unitaires Rust (découpe, format binaire), typecheck TS, build Vite, éditeur dans le navigateur avec backend simulé (flou, cercle, poignées, fonds, FR/EN, Ctrl+C).
-**Pas encore testé en conditions réelles** : capture native + overlay, presse-papiers Windows, bascule de la clé Impr. écran, autostart, macOS.
+Testé : clippy, 3 tests Rust, typecheck, interactions de la loupe en JS (création, déplacement, molette), rendu de la loupe via Remotion, preuve d'indépendance du flou.
+**Pas encore testé en conditions réelles** : capture native + overlay, presse-papiers Windows, bascule Impr. écran, autostart, macOS.
 
 ## Décisions prises
 - Stack Tauri 2 + Rust plutôt qu'Electron (performance, installeur ~3 Mo).
 - Après la sélection : éditeur avec fond appliqué automatiquement (dernier fond mémorisé, « bloom » par défaut).
 - Interface graphite sombre, accent corail unique, polices système.
 - Fonds générés par code (pas d'images embarquées) : 8 maillés + 10 dégradés + dégradé perso.
-- Nom « Clicadre », dépôt `abg5f/clicadre`, licence MIT.
+- Nom « Glossyshots », dépôt `abg5f/glossyshots`, licence MIT.
 - Impr. écran : bascule HKCU `PrintScreenKeyForSnippingEnabled` déclenchée par l'utilisateur dans Réglages ; secours Ctrl+Shift+X.
 
 ## En cours / TODOs

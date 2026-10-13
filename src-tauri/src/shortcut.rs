@@ -35,7 +35,7 @@ pub fn register_all(app: &AppHandle) {
     let gs = app.global_shortcut();
     let _ = gs.unregister_all();
     if let Err(err) = gs.register(fallback()) {
-        eprintln!("[clicadre] raccourci de secours indisponible : {err}");
+        eprintln!("[glossyshots] raccourci de secours indisponible : {err}");
     }
     let ok = !cfg!(target_os = "macos")
         && gs.register(Shortcut::new(None, Code::PrintScreen)).is_ok();

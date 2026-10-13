@@ -4,7 +4,7 @@ use tauri::menu::{Menu, MenuItem, PredefinedMenuItem};
 use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
 use tauri::{AppHandle, Wry};
 
-const TRAY_ID: &str = "clicadre";
+const TRAY_ID: &str = "glossyshots";
 
 struct Labels {
     capture: &'static str,
@@ -17,15 +17,15 @@ fn labels(lang: &str) -> Labels {
     match lang {
         "en" => Labels {
             capture: "Capture an area",
-            open: "Open Clicadre",
+            open: "Open Glossyshots",
             quit: "Quit",
-            tooltip: "Clicadre: press Print Screen to capture",
+            tooltip: "Glossyshots: press Print Screen to capture",
         },
         _ => Labels {
             capture: "Capturer une zone",
-            open: "Ouvrir Clicadre",
+            open: "Ouvrir Glossyshots",
             quit: "Quitter",
-            tooltip: "Clicadre : Impr. écran pour capturer",
+            tooltip: "Glossyshots : Impr. écran pour capturer",
         },
     }
 }

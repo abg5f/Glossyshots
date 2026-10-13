@@ -46,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tagName: ${{ github.ref_name }}
-          releaseName: "Clicadre ${{ github.ref_name }}"
-          releaseBody: "See the assets below to download and install Clicadre."
+          releaseName: "Glossyshots ${{ github.ref_name }}"
+          releaseBody: "See the assets below to download and install Glossyshots."
           releaseDraft: true
           args: ${{ matrix.args }}

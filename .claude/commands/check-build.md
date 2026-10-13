@@ -1,4 +1,4 @@
-Vérifie que Clicadre est prêt à être déployé.
+Vérifie que Glossyshots est prêt à être déployé.
 
 1. Lis la section « Commandes essentielles » de `CLAUDE.md`.
 2. Exécute dans l'ordre, en s'arrêtant au premier échec : install des dépendances → lint → typecheck (si applicable) → tests → build.

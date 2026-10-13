@@ -1,14 +1,14 @@
 {
-  "name": "clicadre-video",
+  "name": "glossyshots-video",
   "private": true,
   "version": "0.1.0",
-  "description": "Vidéo de présentation de Clicadre (Remotion)",
+  "description": "Vidéo de présentation de Glossyshots (Remotion)",
   "scripts": {
     "studio": "remotion studio src/index.ts",
-    "render:fr": "remotion render src/index.ts Demo-fr ../docs/media/clicadre-demo-fr.mp4",
-    "render:en": "remotion render src/index.ts Demo-en ../docs/media/clicadre-demo.mp4",
-    "render:gif": "remotion render src/index.ts Teaser-en ../docs/media/clicadre-demo.gif --codec=gif --every-nth-frame=2 --scale=0.5",
-    "still": "remotion still src/index.ts Demo-en ../docs/media/hero.png --frame=640"
+    "render:fr": "remotion render src/index.ts Demo-fr ../docs/media/glossyshots-demo-fr.mp4",
+    "render:en": "remotion render src/index.ts Demo-en ../docs/media/glossyshots-demo.mp4",
+    "render:gif": "remotion render src/index.ts Teaser-en ../docs/media/glossyshots-demo.gif --codec=gif --every-nth-frame=2 --scale=0.5",
+    "still": "remotion still src/index.ts Demo-en ../docs/media/hero.png --frame=700"
   },
   "dependencies": {
     "@remotion/cli": "^4.0.535",

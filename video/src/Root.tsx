@@ -2,9 +2,9 @@ import React from "react";
 import { Composition, Sequence } from "remotion";
 import { Demo, SCENES, TOTAL } from "./Demo";
 
-/** Extrait pour le GIF du README : de la touche Impr. écran au choix du fond. */
+/** Extrait pour le GIF du README : de la touche Impr. écran à la loupe. */
 const TEASER_FROM = SCENES.capture[0];
-const TEASER_TO = SCENES.backgrounds[0] + SCENES.backgrounds[1];
+const TEASER_TO = SCENES.spotlight[0] + SCENES.spotlight[1];
 
 const Teaser: React.FC = () => (
   <Sequence from={-TEASER_FROM}>

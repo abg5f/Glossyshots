@@ -1,5 +1,5 @@
 /**
- * Clicadre : vidéo de présentation (≈35 s, 1920×1080, 30 i/s).
+ * Glossyshots : vidéo de présentation (≈35 s, 1920×1080, 30 i/s).
  * Accroche → capture brute → Impr. écran → flou & cercle → fonds → avant/après → atouts → fin.
  */
 import React from "react";
@@ -73,7 +73,33 @@ const ellipse = (t: number): Annot[] =>
       ]
     : [];
 
-const FINAL_ANNOTS = [...blurAnnots(1, 1), ...ellipse(1)];
+// Carte « Clé API » de la capture factice : la zone mise en avant par la loupe.
+const CARD = { x1: 288, y1: 456, x2: 1232, y2: 646 };
+const LENS_ZOOM = 1.16;
+const LENS_DY = -34;
+
+const lens = (t: number, zoom = 1, dy = 0): Annot[] =>
+  t > 0
+    ? [
+        {
+          id: 4,
+          kind: "magnify",
+          x1: CARD.x1,
+          y1: CARD.y1,
+          x2: CARD.x1 + (CARD.x2 - CARD.x1) * t,
+          y2: CARD.y1 + (CARD.y2 - CARD.y1) * t,
+          color: "#ff4d4f",
+          size: 2,
+          zoom,
+          dx: 0,
+          dy,
+          focus: "blur",
+        },
+      ]
+    : [];
+
+const FINAL_ANNOTS = [...blurAnnots(1, 1), ...ellipse(1), ...lens(1, LENS_ZOOM, LENS_DY)];
+const EDITOR_ANNOTS = [...blurAnnots(1, 1), ...ellipse(1)];
 
 // ───────────────────────────── Éléments partagés ─────────────────────────────
 
@@ -425,8 +451,8 @@ const RAIL = 64;
 const PANEL = 280;
 const STAGE: Box = { x: EDITOR.x + RAIL + 50, y: EDITOR.y + BAR + 46, w: EDITOR.w - RAIL - PANEL - 100, h: EDITOR.h - BAR - 92 };
 
-const TOOLS: IconName[] = ["select", "blur", "ellipse", "rect", "arrow"];
-const toolY = (i: number) => EDITOR.y + BAR + 22 + i * 56 + (i >= 1 ? 16 : 0) + (i >= 2 ? 16 : 0);
+const TOOLS: IconName[] = ["select", "blur", "magnify", "ellipse", "rect", "arrow"];
+const toolY = (i: number) => EDITOR.y + BAR + 22 + i * 56 + (i >= 1 ? 16 : 0) + (i >= 3 ? 16 : 0);
 
 const thumbs = new Map<string, string>();
 const thumb = (id: string) => {
@@ -453,7 +479,7 @@ const EditorChrome: React.FC<{ lang: Lang; tool: number; copied: number; bg: str
       {/* barre de titre */}
       <div style={{ height: BAR, display: "flex", alignItems: "center", gap: 12, padding: "0 18px", background: C.bg, borderBottom: `1px solid ${C.line}` }}>
         <Img src={staticFile("logo.svg")} width={24} height={24} />
-        <span style={{ font: `650 20px ${FONT}`, color: C.text }}>Clicadre</span>
+        <span style={{ font: `650 20px ${FONT}`, color: C.text }}>Glossyshots</span>
         <span style={{ font: `400 16px ${MONO}`, color: C.text3, paddingLeft: 12, borderLeft: `1px solid ${C.line}` }}>1510 × 1030</span>
         <div style={{ flex: 1 }} />
         <div style={{ display: "flex", alignItems: "center", gap: 8, height: 38, padding: "0 16px", borderRadius: 9, background: C.surface2, color: C.text, font: `600 17px ${FONT}` }}>
@@ -568,14 +594,14 @@ const Editor: React.FC<{ lang: Lang }> = ({ lang }) => {
     [90, A(APIKEY.x1, APIKEY.y1).x, A(APIKEY.x1, APIKEY.y1).y],
     [92, A(APIKEY.x1, APIKEY.y1).x, A(APIKEY.x1, APIKEY.y1).y],
     [116, A(APIKEY.x2, APIKEY.y2).x, A(APIKEY.x2, APIKEY.y2).y],
-    [126, railX, toolY(2) + 22],
+    [126, railX, toolY(3) + 22],
     [132, A(BUTTON.x1, BUTTON.y1).x, A(BUTTON.x1, BUTTON.y1).y],
     [134, A(BUTTON.x1, BUTTON.y1).x, A(BUTTON.x1, BUTTON.y1).y],
     [158, A(BUTTON.x2, BUTTON.y2).x, A(BUTTON.x2, BUTTON.y2).y],
     [170, copyBtn.x, copyBtn.y],
   ]);
   const down = (f >= 56 && f <= 82) || (f >= 90 && f <= 116) || (f >= 132 && f <= 158) || (f >= 170 && f <= 173);
-  const tool = f < 52 ? 0 : f < 128 ? 1 : 2;
+  const tool = f < 52 ? 0 : f < 128 ? 1 : 3;
   const copied = io(f, [171, 175], [0, 1]);
   const caption = f < 124 ? t.blur : t.circle;
   const chrome = io(f, [4, 22], [0, 1]);
@@ -590,6 +616,49 @@ const Editor: React.FC<{ lang: Lang }> = ({ lang }) => {
         <Headline key={caption} text={caption} at={f < 124 ? 40 : 124} size={60} />
       </div>
       {f >= 30 && <Cursor x={cursor.x} y={cursor.y} down={down} opacity={io(f, [30, 36], [0, 1])} />}
+    </AbsoluteFill>
+  );
+};
+
+// ───────────────────────────── 4 bis. Loupe ─────────────────────────────
+
+const Spotlight: React.FC<{ lang: Lang }> = ({ lang }) => {
+  const t = copy[lang];
+  const f = useCurrentFrame();
+  const source = useSource(lang);
+  if (!source) return null;
+  const p = place(source, BLOOM, BLOOM, STAGE);
+  const A = (x: number, y: number) => p.at(x, y);
+
+  const tDraw = io(f, [30, 58], [0, 1], inOut);
+  const zoom = 1 + (LENS_ZOOM - 1) * io(f, [64, 88], [0, 1], inOut);
+  const dy = LENS_DY * io(f, [98, 124], [0, 1], inOut);
+  const annots = [...EDITOR_ANNOTS, ...lens(tDraw, zoom, dy)];
+
+  const railX = EDITOR.x + 32;
+  const copyBtn = { x: EDITOR.x + EDITOR.w - 80, y: EDITOR.y + 25 };
+  const mid = { x: (CARD.x1 + CARD.x2) / 2, y: (CARD.y1 + CARD.y2) / 2 };
+  const cursor = track(f, [
+    [0, copyBtn.x, copyBtn.y],
+    [20, railX, toolY(2) + 22],
+    [28, A(CARD.x1, CARD.y1).x, A(CARD.x1, CARD.y1).y],
+    [30, A(CARD.x1, CARD.y1).x, A(CARD.x1, CARD.y1).y],
+    [58, A(CARD.x2, CARD.y2).x, A(CARD.x2, CARD.y2).y],
+    [92, A(mid.x, mid.y).x, A(mid.x, mid.y).y],
+    [98, A(mid.x, mid.y).x, A(mid.x, mid.y).y],
+    [124, A(mid.x, mid.y + LENS_DY).x, A(mid.x, mid.y + LENS_DY).y],
+  ]);
+  const down = (f >= 30 && f <= 58) || (f >= 98 && f <= 124);
+  const tool = f < 23 ? 3 : 2;
+
+  return (
+    <AbsoluteFill>
+      <EditorChrome lang={lang} tool={tool} copied={0} bg="bloom" />
+      <ShotCanvas source={source} look={BLOOM} fit={BLOOM} box={STAGE} annots={annots} />
+      <div style={{ position: "absolute", left: 0, right: 0, top: 40, textAlign: "center" }}>
+        <Headline text={t.spotlight} at={6} size={60} />
+      </div>
+      <Cursor x={cursor.x} y={cursor.y} down={down} />
     </AbsoluteFill>
   );
 };
@@ -727,12 +796,12 @@ const Outro: React.FC<{ lang: Lang }> = ({ lang }) => {
     <Fade dur={90} outF={0}>
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", gap: 0 }}>
         <Img src={staticFile("logo.svg")} width={168} height={168} style={{ opacity: logo, transform: `scale(${0.8 + 0.2 * logo})`, marginBottom: 30 }} />
-        <div style={{ font: `700 132px/1 ${FONT}`, color: C.text, letterSpacing: "-0.03em", opacity: line(8) }}>Clicadre</div>
+        <div style={{ font: `700 132px/1 ${FONT}`, color: C.text, letterSpacing: "-0.03em", opacity: line(8) }}>Glossyshots</div>
         <div style={{ font: `500 44px ${FONT}`, color: C.text2, marginTop: 26, opacity: line(16) }}>{t.tagline}</div>
         <div style={{ marginTop: 56, display: "flex", gap: 22, alignItems: "center", opacity: line(26) }}>
           <span style={{ font: `600 30px ${FONT}`, color: C.accent }}>{t.license}</span>
         </div>
-        <div style={{ marginTop: 18, font: `500 30px ${MONO}`, color: C.text, opacity: line(32) }}>github.com/abg5f/clicadre</div>
+        <div style={{ marginTop: 18, font: `500 30px ${MONO}`, color: C.text, opacity: line(32) }}>github.com/abg5f/glossyshots</div>
       </AbsoluteFill>
     </Fade>
   );
@@ -768,6 +837,14 @@ function cues(): [number, Sfx, number][] {
     [E + 158, "mouseup", 0.85],
     [E + 171, "click", 1.0],
     [E + 174, "success", 0.45],
+    [SCENES.spotlight[0] + 22, "click", 1.0],
+    [SCENES.spotlight[0] + 30, "mousedown", 0.95],
+    [SCENES.spotlight[0] + 58, "mouseup", 0.85],
+    [SCENES.spotlight[0] + 68, "tick", 0.85],
+    [SCENES.spotlight[0] + 76, "tick", 0.85],
+    [SCENES.spotlight[0] + 84, "tick", 0.85],
+    [SCENES.spotlight[0] + 98, "mousedown", 0.95],
+    [SCENES.spotlight[0] + 124, "mouseup", 0.85],
     [G + 2, "whoosh", 0.4],
     [SCENES.compare[0] + 2, "whoosh", 0.35],
     [SCENES.outro[0] + 6, "outro", 0.55],
@@ -795,12 +872,13 @@ export const SCENES = {
   before: [75, 120],
   capture: [195, 120],
   editor: [315, 180],
-  backgrounds: [495, 195],
-  compare: [690, 120],
-  features: [810, 150],
-  outro: [960, 90],
+  spotlight: [495, 150],
+  backgrounds: [645, 195],
+  compare: [840, 120],
+  features: [960, 150],
+  outro: [1110, 90],
 } as const;
-export const TOTAL = 1050;
+export const TOTAL = 1200;
 
 export const Demo: React.FC<{ lang: Lang }> = ({ lang }) => (
   <AbsoluteFill style={{ fontFamily: FONT }}>
@@ -817,6 +895,9 @@ export const Demo: React.FC<{ lang: Lang }> = ({ lang }) => (
     </Sequence>
     <Sequence from={SCENES.editor[0]} durationInFrames={SCENES.editor[1]}>
       <Editor lang={lang} />
+    </Sequence>
+    <Sequence from={SCENES.spotlight[0]} durationInFrames={SCENES.spotlight[1]}>
+      <Spotlight lang={lang} />
     </Sequence>
     <Sequence from={SCENES.backgrounds[0]} durationInFrames={SCENES.backgrounds[1]}>
       <Fade dur={SCENES.backgrounds[1]} inF={0}>

@@ -1,13 +1,13 @@
 [package]
-name = "clicadre"
-version = "0.1.1"
-description = "Clicadre : capture d'écran, floutage, annotations et fonds élégants"
+name = "glossyshots"
+version = "0.2.0"
+description = "Glossyshots : capture d'écran, floutage, annotations et fonds élégants"
 authors = ["abg5f"]
 license = "MIT"
 edition = "2021"
 
 [lib]
-name = "clicadre_lib"
+name = "glossyshots_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

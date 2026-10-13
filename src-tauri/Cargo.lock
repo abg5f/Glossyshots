@@ -609,22 +609,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "clicadre"
-version = "0.1.1"
-dependencies = [
- "arboard",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-autostart",
- "tauri-plugin-global-shortcut",
- "tauri-plugin-single-instance",
- "winreg",
- "xcap",
-]
-
-[[package]]
 name = "clipboard-win"
 version = "5.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1682,6 +1666,22 @@ dependencies = [
  "windows-sys 0.59.0",
  "x11rb",
  "xkeysym",
+]
+
+[[package]]
+name = "glossyshots"
+version = "0.1.1"
+dependencies = [
+ "arboard",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-autostart",
+ "tauri-plugin-global-shortcut",
+ "tauri-plugin-single-instance",
+ "winreg",
+ "xcap",
 ]
 
 [[package]]

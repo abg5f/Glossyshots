@@ -1,8 +1,8 @@
-# Clicadre
+# Glossyshots
 
-Outil de capture d'écran open source (MIT) pour Windows (prioritaire) et macOS : Impr. écran → sélection de zone → flou / annotations → la capture est posée sur un fond (marge, coins arrondis, ombre) → copier ou enregistrer. Interface bilingue FR/EN.
+Outil de capture d'écran open source (MIT) pour Windows (prioritaire) et macOS : Impr. écran → sélection de zone → flou sécurisé / loupe / annotations → la capture est posée sur un fond (marge, coins arrondis, ombre) → copier ou enregistrer. Interface bilingue FR/EN.
 
-Dépôt public : `abg5f/clicadre` (dépôt git propre à ce dossier, imbriqué dans `0_Claude Code`).
+Dépôt public : `abg5f/Glossyshots` (ex-`clicadre`, redirigé par GitHub ; dépôt git propre au dossier local `45_Clicadre`, imbriqué dans `0_Claude Code`). Ne jamais recréer de dépôt `clicadre` : cela casserait la redirection des liens déjà publiés.
 
 ## Stack technique
 
@@ -41,7 +41,8 @@ src-tauri/src/
 src/
   overlay/main.ts   sélection : image figée, voile evenodd, loupe ×8, badge dimensions
   editor/main.ts    état, outils, poignées, historique, raccourcis, panneau Fond, réglages
-  editor/render.ts  rendu unique affichage + export (fond → ombre → capture → masquages → formes)
+  editor/render.ts  rendu unique affichage + export (fond → ombre → capture → masquages → mise au point → formes → loupes)
+  editor/redact.ts  flou sécurisé : n'utilise JAMAIS les pixels de la zone masquée (bord extérieur + fausses lignes + grain)
   editor/backgrounds.ts  fonds générés (8 « wallpapers » maillés + 10 dégradés + perso)
   lib/i18n.ts       dictionnaires FR/EN, data-i18n / data-i18n-title
   lib/ipc.ts        format binaire (u32 LE largeur, u32 LE hauteur, RGBA)
@@ -57,6 +58,8 @@ Fenêtres déclarées dans `tauri.conf.json` : `overlay` (cachée, sans bordure,
 - **Pixels en binaire brut** sur l'IPC (`tauri::ipc::Response` / `InvokeBody::Raw`), jamais en base64.
 - **Une seule fonction de rendu** (`render.ts`) pour l'aperçu et l'export : toute nouvelle option visuelle s'ajoute là.
 - Ajouter un **outil** : type `Kind` dans `render.ts` (+ dessin), bouton `data-tool` dans `editor.html`, raccourci dans `TOOL_KEYS`, libellés dans `i18n.ts`.
+- **Flou** : ne jamais réintroduire un flou calculé depuis le contenu masqué (gaussien, réduction, pixelisation). Tout calque dérivé (ex. fond adouci des loupes) part de l'image DÉJÀ masquée.
+- **Loupe** (`kind: "magnify"`) : `x1..y2` = zone source, `zoom` 1→4, `dx/dy` = décalage de la vue agrandie, `focus` = none/dim/blur pour le reste de l'image.
 - Ajouter un **fond** : entrée dans `backgrounds` (`backgrounds.ts`), noms `{ fr, en }`.
 - Ajouter un **texte** : clé dans les deux dictionnaires de `i18n.ts` (le type `Key` force la parité FR/EN).
 - Ajouter une **commande native** : `#[tauri::command]` + `generate_handler!` dans `lib.rs`.

@@ -1,4 +1,4 @@
-//! Clicadre : cœur natif.
+//! Glossyshots : cœur natif.
 //!
 //! Flux : raccourci global → capture de l'écran sous le curseur (xcap) →
 //! fenêtre `overlay` (sélection de zone sur l'image figée) → découpe →
@@ -115,7 +115,7 @@ pub fn start_capture(app: &AppHandle) {
     let app = app.clone();
     tauri::async_runtime::spawn_blocking(move || {
         if let Err(err) = capture_under_cursor(&app) {
-            eprintln!("[clicadre] capture impossible : {err}");
+            eprintln!("[glossyshots] capture impossible : {err}");
             app.state::<AppState>().busy.store(false, Ordering::SeqCst);
         }
     });
@@ -272,7 +272,7 @@ fn copy_image(request: Request<'_>) -> Result<(), String> {
         .map_err(|e| e.to_string())
 }
 
-/// Écrit un PNG déjà encodé dans `Images/Clicadre/<x-filename>` et renvoie son chemin.
+/// Écrit un PNG déjà encodé dans `Images/Glossyshots/<x-filename>` et renvoie son chemin.
 #[tauri::command]
 fn save_png(app: AppHandle, request: Request<'_>) -> Result<String, String> {
     let name = header(&request, "x-filename")?;
@@ -284,7 +284,7 @@ fn save_png(app: AppHandle, request: Request<'_>) -> Result<String, String> {
         .path()
         .picture_dir()
         .map_err(|e| e.to_string())?
-        .join("Clicadre");
+        .join("Glossyshots");
     std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
     let path = dir.join(name);
     std::fs::write(&path, bytes).map_err(|e| e.to_string())?;
@@ -333,7 +333,7 @@ pub fn run() {
             settings::get_settings,
             settings::set_language,
             settings::get_system_state,
-            settings::set_printscreen_for_clicadre,
+            settings::set_printscreen_for_glossyshots,
             settings::set_autostart,
         ])
         .setup(|app| {
@@ -362,5 +362,5 @@ pub fn run() {
             }
         })
         .run(tauri::generate_context!())
-        .expect("erreur au lancement de Clicadre");
+        .expect("erreur au lancement de Glossyshots");
 }

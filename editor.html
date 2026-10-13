@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Clicadre</title>
+    <title>Glossyshots</title>
     <link rel="stylesheet" href="/src/styles/tokens.css" />
     <link rel="stylesheet" href="/src/styles/editor.css" />
   </head>
@@ -12,7 +12,7 @@
       <header class="titlebar" data-tauri-drag-region>
         <div class="brand" data-tauri-drag-region>
           <img src="/logo.svg" alt="" width="20" height="20" />
-          <span class="brand-name" data-tauri-drag-region>Clicadre</span>
+          <span class="brand-name" data-tauri-drag-region>Glossyshots</span>
           <span class="meta" id="meta" data-tauri-drag-region></span>
         </div>
 
@@ -51,6 +51,7 @@
         <button class="tool" data-tool="select" data-i18n-title="tool.select" data-kbd="V"><i data-icon="select"></i></button>
         <span class="rail-sep" aria-hidden="true"></span>
         <button class="tool" data-tool="blur" data-i18n-title="tool.blur" data-kbd="B"><i data-icon="blur"></i></button>
+        <button class="tool" data-tool="magnify" data-i18n-title="tool.magnify" data-kbd="M"><i data-icon="magnify"></i></button>
         <span class="rail-sep" aria-hidden="true"></span>
         <button class="tool" data-tool="ellipse" data-i18n-title="tool.ellipse" data-kbd="O"><i data-icon="ellipse"></i></button>
         <button class="tool" data-tool="rect" data-i18n-title="tool.rect" data-kbd="R"><i data-icon="rect"></i></button>
@@ -64,6 +65,19 @@
           <div class="opt-group" id="opt-colors" role="radiogroup" data-i18n-title="tool.color"></div>
           <span class="opt-sep" id="opt-size-sep" aria-hidden="true"></span>
           <div class="opt-group" id="opt-sizes" role="radiogroup" data-i18n-title="tool.width"></div>
+          <span class="opt-sep" id="opt-lens-sep" aria-hidden="true"></span>
+          <div class="opt-group opt-lens" id="opt-lens">
+            <label class="opt-zoom" data-i18n-title="tool.zoom">
+              <i data-icon="magnify"></i>
+              <input type="range" id="opt-zoom" />
+              <output id="opt-zoom-out"></output>
+            </label>
+            <div class="segmented segmented-sm" id="opt-focus" role="radiogroup" data-i18n-title="tool.focus">
+              <button role="radio" data-focus="none" data-i18n="focus.none"></button>
+              <button role="radio" data-focus="dim" data-i18n="focus.dim"></button>
+              <button role="radio" data-focus="blur" data-i18n="focus.blur"></button>
+            </div>
+          </div>
           <span class="opt-sep" id="opt-delete-sep" aria-hidden="true"></span>
           <button class="icon-btn icon-btn-sm" id="opt-delete" data-i18n-title="tool.delete" data-kbd="Suppr"><i data-icon="trash"></i></button>
           <span class="opt-hint" id="opt-hint" data-i18n="tool.redactHint"></span>

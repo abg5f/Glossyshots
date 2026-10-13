@@ -1,5 +1,5 @@
 /**
- * Pont entre Remotion et le vrai moteur de rendu de Clicadre (`src/editor/render.ts`) :
+ * Pont entre Remotion et le vrai moteur de rendu de Glossyshots (`src/editor/render.ts`) :
  * ce que montre la vidéo est exactement ce que produit l'application.
  */
 import React, { useLayoutEffect, useRef, useState } from "react";

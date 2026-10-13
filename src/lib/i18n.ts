@@ -24,7 +24,13 @@ const fr = {
   "tool.rect": "Rectangle",
   "tool.ellipse": "Cercle",
   "tool.arrow": "Flèche",
-  "tool.redactHint": "Glissez sur ce qui doit rester privé",
+  "tool.magnify": "Loupe",
+  "tool.zoom": "Agrandissement",
+  "tool.focus": "Reste de l'image",
+  "focus.none": "Normal",
+  "focus.dim": "Assombri",
+  "focus.blur": "Flouté",
+  "tool.redactHint": "Glissez sur ce qui doit rester privé : le contenu est remplacé, pas seulement flouté",
   "tool.color": "Couleur",
   "tool.width": "Épaisseur",
   "tool.delete": "Supprimer",
@@ -47,21 +53,21 @@ const fr = {
   "empty.cta": "Capturer maintenant",
   "empty.or": "ou",
   "empty.snipping": "Sous Windows, la touche Impr. écran ouvre encore l'Outil Capture.",
-  "empty.snippingCta": "Utiliser Impr. écran pour Clicadre",
+  "empty.snippingCta": "Utiliser Impr. écran pour Glossyshots",
 
   "settings.title": "Réglages",
   "settings.language": "Langue",
-  "settings.printscreen": "Impr. écran lance Clicadre",
+  "settings.printscreen": "Impr. écran lance Glossyshots",
   "settings.printscreenHelp": "Libère la touche réservée à l'Outil Capture de Windows. Si elle ouvre encore l'Outil Capture, fermez puis rouvrez votre session.",
   "settings.autostart": "Lancer au démarrage",
-  "settings.autostartHelp": "Clicadre attend discrètement dans la zone de notification.",
+  "settings.autostartHelp": "Glossyshots attend discrètement dans la zone de notification.",
   "settings.shortcut": "Raccourci de secours",
 
   "toast.copied": "Copié dans le presse-papiers",
-  "toast.saved": "Enregistré dans Images › Clicadre",
+  "toast.saved": "Enregistré dans Images › Glossyshots",
   "toast.show": "Afficher",
   "toast.error": "Échec : {msg}",
-  "toast.printscreenOn": "Impr. écran lance maintenant Clicadre",
+  "toast.printscreenOn": "Impr. écran lance maintenant Glossyshots",
   "toast.printscreenOff": "Impr. écran est rendue à l'Outil Capture",
 } as const;
 
@@ -89,7 +95,13 @@ const en: Record<Key, string> = {
   "tool.rect": "Rectangle",
   "tool.ellipse": "Circle",
   "tool.arrow": "Arrow",
-  "tool.redactHint": "Drag over anything that should stay private",
+  "tool.magnify": "Magnify",
+  "tool.zoom": "Zoom",
+  "tool.focus": "Rest of the image",
+  "focus.none": "Normal",
+  "focus.dim": "Dimmed",
+  "focus.blur": "Blurred",
+  "tool.redactHint": "Drag over anything private: the content is replaced, not just blurred",
   "tool.color": "Color",
   "tool.width": "Thickness",
   "tool.delete": "Delete",
@@ -112,21 +124,21 @@ const en: Record<Key, string> = {
   "empty.cta": "Capture now",
   "empty.or": "or",
   "empty.snipping": "On Windows, the Print Screen key still opens the Snipping Tool.",
-  "empty.snippingCta": "Use Print Screen for Clicadre",
+  "empty.snippingCta": "Use Print Screen for Glossyshots",
 
   "settings.title": "Settings",
   "settings.language": "Language",
-  "settings.printscreen": "Print Screen opens Clicadre",
+  "settings.printscreen": "Print Screen opens Glossyshots",
   "settings.printscreenHelp": "Frees the key reserved for the Windows Snipping Tool. If it still opens the Snipping Tool, sign out and back in.",
   "settings.autostart": "Launch at startup",
-  "settings.autostartHelp": "Clicadre waits quietly in the notification area.",
+  "settings.autostartHelp": "Glossyshots waits quietly in the notification area.",
   "settings.shortcut": "Fallback shortcut",
 
   "toast.copied": "Copied to clipboard",
-  "toast.saved": "Saved to Pictures › Clicadre",
+  "toast.saved": "Saved to Pictures › Glossyshots",
   "toast.show": "Show",
   "toast.error": "Failed: {msg}",
-  "toast.printscreenOn": "Print Screen now opens Clicadre",
+  "toast.printscreenOn": "Print Screen now opens Glossyshots",
   "toast.printscreenOff": "Print Screen is back with the Snipping Tool",
 };
 
@@ -177,13 +189,13 @@ export async function initLang(): Promise<Lang> {
 export async function setLang(next: Lang): Promise<void> {
   current = next;
   await invoke("set_language", { language: next });
-  localStorage.setItem("clicadre.lang", next);
+  localStorage.setItem("glossyshots.lang", next);
   applyI18n();
 }
 
 /** Synchronise les autres fenêtres quand la langue change. */
 window.addEventListener("storage", (e) => {
-  if (e.key === "clicadre.lang" && (e.newValue === "fr" || e.newValue === "en")) {
+  if (e.key === "glossyshots.lang" && (e.newValue === "fr" || e.newValue === "en")) {
     current = e.newValue;
     applyI18n();
   }

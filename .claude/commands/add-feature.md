@@ -1,4 +1,4 @@
-Scaffold une nouvelle fonctionnalité dans Clicadre.
+Scaffold une nouvelle fonctionnalité dans Glossyshots.
 
 Fonctionnalité : $ARGUMENTS
 

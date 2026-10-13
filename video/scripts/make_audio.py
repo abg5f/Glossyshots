@@ -264,7 +264,7 @@ def sfx_outro() -> np.ndarray:
 
 
 if __name__ == "__main__":
-    write("music.wav", music(), peak_db=-1.0, stereo_width=0.004)
+    write("music.wav", music(40.0), peak_db=-1.0, stereo_width=0.004)
     write("click.wav", sfx_click(), -3)
     write("mousedown.wav", sfx_mousedown(), -4)
     write("mouseup.wav", sfx_mouseup(), -6)

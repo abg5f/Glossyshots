@@ -76,7 +76,7 @@ pub fn set_language(app: AppHandle, language: String) -> Result<(), String> {
 #[serde(rename_all = "camelCase")]
 pub struct SystemState {
     platform: &'static str,
-    /// Le raccourci Impr. écran est enregistré par Clicadre.
+    /// Le raccourci Impr. écran est enregistré par Glossyshots.
     printscreen_registered: bool,
     /// Windows : la touche Impr. écran est réservée à l'Outil Capture (`None` hors Windows).
     snipping_owns_printscreen: Option<bool>,
@@ -101,7 +101,7 @@ pub fn get_system_state(app: AppHandle) -> SystemState {
 /// Libère (ou rend) la touche Impr. écran à l'Outil Capture de Windows.
 /// N'agit que sur le profil de l'utilisateur courant (HKCU), jamais sur la machine.
 #[tauri::command]
-pub fn set_printscreen_for_clicadre(app: AppHandle, enabled: bool) -> Result<SystemState, String> {
+pub fn set_printscreen_for_glossyshots(app: AppHandle, enabled: bool) -> Result<SystemState, String> {
     snipping::set_owns_printscreen(!enabled)?;
     crate::shortcut::register_all(&app);
     Ok(get_system_state(app))

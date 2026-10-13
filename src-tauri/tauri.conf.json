@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Clicadre",
-  "version": "0.1.1",
-  "identifier": "io.github.abg5f.clicadre",
+  "productName": "Glossyshots",
+  "version": "0.2.0",
+  "identifier": "io.github.abg5f.glossyshots",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -15,7 +15,7 @@
       {
         "label": "overlay",
         "url": "overlay.html",
-        "title": "Clicadre",
+        "title": "Glossyshots",
         "visible": false,
         "decorations": false,
         "resizable": false,
@@ -28,7 +28,7 @@
       {
         "label": "editor",
         "url": "editor.html",
-        "title": "Clicadre",
+        "title": "Glossyshots",
         "width": 1280,
         "height": 820,
         "minWidth": 960,
@@ -53,7 +53,7 @@
     ],
     "category": "Utility",
     "shortDescription": "Capture d'écran avec floutage, annotations et fonds élégants",
-    "longDescription": "Clicadre capture une zone de l'écran, permet de flouter et d'entourer des éléments, puis pose la capture sur un fond soigné avant de la copier ou de l'enregistrer.",
+    "longDescription": "Glossyshots capture une zone de l'écran, permet de flouter et d'entourer des éléments, puis pose la capture sur un fond soigné avant de la copier ou de l'enregistrer.",
     "copyright": "MIT License",
     "icon": [
       "icons/32x32.png",

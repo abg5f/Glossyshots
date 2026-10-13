@@ -13,12 +13,15 @@ import {
   bounds,
   defaultLook,
   exportCanvas,
+  isMagnify,
   isRedaction,
   layout,
+  lensRect,
   render,
   Source,
   strokeWidth,
   type Annot,
+  type Focus,
   type Kind,
   type Look,
   type Size,
@@ -26,10 +29,10 @@ import {
 
 type Tool = "select" | Kind;
 type Pt = { x: number; y: number };
-type Handle = "nw" | "ne" | "sw" | "se" | "p1" | "p2";
+type Handle = "nw" | "ne" | "sw" | "se" | "p1" | "p2" | "lnw" | "lne" | "lsw" | "lse";
 
 const COLORS = ["#ff4d4f", "#ffb020", "#2f8cff", "#22c55e", "#f5f5f7"];
-const STORE = "clicadre.editor.v1";
+const STORE = "glossyshots.editor.v1";
 const $ = <T extends HTMLElement = HTMLElement>(sel: string) => document.querySelector<T>(sel)!;
 
 // ───────────────────────────── État ─────────────────────────────
@@ -41,10 +44,12 @@ let past: Annot[][] = [];
 let future: Annot[][] = [];
 let selectedId: number | null = null;
 let nextId = 1;
-const TOOLS: Tool[] = ["select", "blur", "rect", "ellipse", "arrow"];
+const TOOLS: Tool[] = ["select", "blur", "magnify", "rect", "ellipse", "arrow"];
 let tool: Tool = saved.tool && TOOLS.includes(saved.tool) ? saved.tool : "select";
 let color = saved.color ?? COLORS[0];
 let size: Size = saved.size ?? 2;
+let zoom = saved.zoom ?? 1.5;
+let focus: Focus = saved.focus ?? "blur";
 const look: Look = { ...defaultLook, ...saved.look };
 
 let view = { scale: 1, ox: 0, oy: 0 };
@@ -52,11 +57,12 @@ let drag:
   | { mode: "create"; annot: Annot; origin: Pt }
   | { mode: "move"; annot: Annot; start: Pt; orig: Annot }
   | { mode: "resize"; annot: Annot; handle: Handle; orig: Annot }
+  | { mode: "pan"; annot: Annot; start: Pt; orig: Annot }
   | null = null;
 let frame = 0;
 let system: SystemState | null = null;
 
-function readStore(): { tool?: Tool; color?: string; size?: Size; look?: Partial<Look> } {
+function readStore(): { tool?: Tool; color?: string; size?: Size; zoom?: number; focus?: Focus; look?: Partial<Look> } {
   try {
     return JSON.parse(localStorage.getItem(STORE) ?? "{}");
   } catch {
@@ -66,7 +72,7 @@ function readStore(): { tool?: Tool; color?: string; size?: Size; look?: Partial
 
 function persist(): void {
   try {
-    localStorage.setItem(STORE, JSON.stringify({ tool, color, size, look }));
+    localStorage.setItem(STORE, JSON.stringify({ tool, color, size, zoom, focus, look }));
   } catch {
     /* stockage indisponible : préférences non mémorisées, sans gravité */
   }
@@ -122,7 +128,7 @@ function drawSelection(pad: number): void {
   const px = 1 / view.scale; // un pixel CSS en unités de composition
   ctx.save();
   ctx.translate(pad, pad);
-  if (isRedaction(a.kind) || a.kind !== "arrow") {
+  if (a.kind !== "arrow") {
     const b = bounds(a);
     ctx.setLineDash([5 * px, 4 * px]);
     ctx.lineWidth = 1.25 * px;
@@ -131,16 +137,17 @@ function drawSelection(pad: number): void {
     ctx.setLineDash([]);
   }
   if (a.id === selectedId) {
-    for (const [, p] of handles(a)) {
+    for (const [h, p] of handles(a)) {
       ctx.beginPath();
       ctx.arc(p.x, p.y, 5.5 * px, 0, Math.PI * 2);
-      ctx.fillStyle = "#ffffff";
+      // Poignées de zoom de la loupe pleines, poignées de la zone source creuses.
+      ctx.fillStyle = h.startsWith("l") ? "#ff7a59" : "#ffffff";
       ctx.shadowColor = "rgba(0,0,0,0.35)";
       ctx.shadowBlur = 4;
       ctx.fill();
       ctx.shadowColor = "transparent";
       ctx.lineWidth = 2 * px;
-      ctx.strokeStyle = "#ff7a59";
+      ctx.strokeStyle = h.startsWith("l") ? "#ffffff" : "#ff7a59";
       ctx.stroke();
     }
   }
@@ -155,12 +162,22 @@ function handles(a: Annot): [Handle, Pt][] {
     ];
   }
   const b = bounds(a);
-  return [
+  const list: [Handle, Pt][] = [
     ["nw", { x: b.x, y: b.y }],
     ["ne", { x: b.x + b.w, y: b.y }],
     ["sw", { x: b.x, y: b.y + b.h }],
     ["se", { x: b.x + b.w, y: b.y + b.h }],
   ];
+  if (isMagnify(a.kind)) {
+    const r = lensRect(a);
+    list.push(
+      ["lnw", { x: r.x, y: r.y }],
+      ["lne", { x: r.x + r.w, y: r.y }],
+      ["lsw", { x: r.x, y: r.y + r.h }],
+      ["lse", { x: r.x + r.w, y: r.y + r.h }],
+    );
+  }
+  return list;
 }
 
 /** Coordonnées écran → pixels de la capture (origine au coin de l'image, hors marge). */
@@ -208,6 +225,17 @@ function hitHandle(p: Pt): Handle | null {
   if (!a) return null;
   const tol = 9 / view.scale;
   for (const [h, q] of handles(a)) if (Math.hypot(p.x - q.x, p.y - q.y) <= tol) return h;
+  return null;
+}
+
+/** Vue agrandie d'une loupe sous le pointeur (la plus haute d'abord). */
+function hitLens(p: Pt): Annot | null {
+  for (let i = annots.length - 1; i >= 0; i--) {
+    const a = annots[i];
+    if (!isMagnify(a.kind)) continue;
+    const r = lensRect(a);
+    if (p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h) return a;
+  }
   return null;
 }
 
@@ -260,6 +288,17 @@ canvas.addEventListener("pointerdown", (e) => {
     return;
   }
 
+  // Glisser une vue agrandie la déplace (outils Sélection et Loupe).
+  const lens = tool === "select" || tool === "magnify" ? hitLens(p) : null;
+  if (lens) {
+    selectedId = lens.id;
+    checkpoint();
+    drag = { mode: "pan", annot: lens, start: p, orig: { ...lens } };
+    syncChrome();
+    invalidate();
+    return;
+  }
+
   if (tool === "select") {
     const hit = hitAnnot(p);
     selectedId = hit?.id ?? null;
@@ -274,6 +313,7 @@ canvas.addEventListener("pointerdown", (e) => {
 
   selectedId = null;
   const annot: Annot = { id: nextId++, kind: tool, x1: p.x, y1: p.y, x2: p.x, y2: p.y, color, size };
+  if (tool === "magnify") Object.assign(annot, { zoom, dx: 0, dy: 0, focus });
   drag = { mode: "create", annot, origin: p };
   invalidate();
 });
@@ -298,6 +338,14 @@ canvas.addEventListener("pointermove", (e) => {
       x2: drag.orig.x2 + dx,
       y2: drag.orig.y2 + dy,
     });
+    // Déplacer la zone source d'une loupe laisse la vue agrandie en place.
+    if (isMagnify(drag.annot.kind)) {
+      drag.annot.dx = (drag.orig.dx ?? 0) - dx;
+      drag.annot.dy = (drag.orig.dy ?? 0) - dy;
+    }
+  } else if (drag.mode === "pan") {
+    drag.annot.dx = (drag.orig.dx ?? 0) + p.x - drag.start.x;
+    drag.annot.dy = (drag.orig.dy ?? 0) + p.y - drag.start.y;
   } else {
     resize(drag.annot, drag.orig, drag.handle, p, e.shiftKey);
   }
@@ -305,6 +353,16 @@ canvas.addEventListener("pointermove", (e) => {
 });
 
 function resize(a: Annot, o: Annot, h: Handle, p: Pt, shift: boolean): void {
+  if (h.startsWith("l")) {
+    // Coin de la vue agrandie : règle le zoom autour de son centre.
+    const b = bounds(o);
+    const r = lensRect(o);
+    const cx = r.x + r.w / 2;
+    const cy = r.y + r.h / 2;
+    setZoomOf(a, Math.max(Math.abs(p.x - cx) / (b.w / 2 || 1), Math.abs(p.y - cy) / (b.h / 2 || 1)));
+    zoom = a.zoom!;
+    return;
+  }
   if (h === "p1" || h === "p2") {
     const anchor = h === "p1" ? { x: o.x2, y: o.y2 } : { x: o.x1, y: o.y1 };
     const q = constrain("arrow", anchor, p, shift);
@@ -319,7 +377,56 @@ function resize(a: Annot, o: Annot, h: Handle, p: Pt, shift: boolean): void {
   };
   const q = constrain(a.kind, anchor, p, shift);
   Object.assign(a, { x1: anchor.x, y1: anchor.y, x2: q.x, y2: q.y });
+  if (isMagnify(a.kind)) {
+    // Redimensionner la zone source ne déplace pas la vue agrandie.
+    const r = lensRect(o);
+    const nb = bounds(a);
+    a.dx = r.x + r.w / 2 - (nb.x + nb.w / 2);
+    a.dy = r.y + r.h / 2 - (nb.y + nb.h / 2);
+  }
 }
+
+const ZOOM_MIN = 1;
+const ZOOM_MAX = 4;
+
+function setZoomOf(a: Annot, z: number): void {
+  a.zoom = Math.round(Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, z)) * 20) / 20;
+}
+
+/** Un seul point d'annulation pour une rafale de réglages (molette, curseur). */
+let burst = 0;
+function checkpointOnce(): void {
+  if (!burst) checkpoint();
+  clearTimeout(burst);
+  burst = window.setTimeout(() => (burst = 0), 600);
+}
+
+/** Règle le zoom de la loupe sélectionnée (ou celui des prochaines loupes). */
+function applyZoom(z: number): void {
+  const a = annots.find((x) => x.id === selectedId);
+  if (a && isMagnify(a.kind)) {
+    checkpointOnce();
+    setZoomOf(a, z);
+    zoom = a.zoom!;
+  } else {
+    zoom = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, z));
+  }
+  persist();
+  syncChrome();
+  invalidate();
+}
+
+// Molette au-dessus de la scène, loupe sélectionnée : zoom fin.
+canvas.addEventListener(
+  "wheel",
+  (e) => {
+    const a = annots.find((x) => x.id === selectedId);
+    if (!source || !a || !isMagnify(a.kind)) return;
+    e.preventDefault();
+    applyZoom((a.zoom ?? 1) * (e.deltaY < 0 ? 1.08 : 1 / 1.08));
+  },
+  { passive: false },
+);
 
 canvas.addEventListener("pointerup", (e) => {
   if (!drag) return;
@@ -341,13 +448,14 @@ canvas.addEventListener("pointerup", (e) => {
 });
 
 function sameGeometry(a: Annot, b: Annot): boolean {
-  return a.x1 === b.x1 && a.y1 === b.y1 && a.x2 === b.x2 && a.y2 === b.y2;
+  return a.x1 === b.x1 && a.y1 === b.y1 && a.x2 === b.x2 && a.y2 === b.y2 && a.dx === b.dx && a.dy === b.dy && a.zoom === b.zoom;
 }
 
 function updateCursor(p: Pt): void {
   const h = hitHandle(p);
   let cursor = tool === "select" ? "default" : "crosshair";
-  if (h) cursor = h === "nw" || h === "se" ? "nwse-resize" : h === "ne" || h === "sw" ? "nesw-resize" : "move";
+  if (h) cursor = /^l?(nw|se)$/.test(h) ? "nwse-resize" : /^l?(ne|sw)$/.test(h) ? "nesw-resize" : "move";
+  else if ((tool === "select" || tool === "magnify") && hitLens(p)) cursor = "grab";
   else if (tool === "select" && hitAnnot(p)) cursor = "move";
   canvas.style.cursor = cursor;
 }
@@ -427,6 +535,18 @@ function syncChrome(): void {
   const shapeSize = selected && !isRedaction(selected.kind) ? selected.size : size;
   const showShape = !!kind && !isRedaction(kind);
   const showHint = !!kind && isRedaction(kind) && !selected;
+  const showLens = !!kind && isMagnify(kind);
+  const lensZoom = selected && isMagnify(selected.kind) ? (selected.zoom ?? 1) : zoom;
+  const lensFocus = selected && isMagnify(selected.kind) ? (selected.focus ?? "none") : focus;
+  $("#opt-lens").hidden = !showLens;
+  $("#opt-lens-sep").hidden = !showLens;
+  const zoomInput = $<HTMLInputElement>("#opt-zoom");
+  zoomInput.value = String(lensZoom);
+  zoomInput.style.setProperty("--p", `${((lensZoom - ZOOM_MIN) / (ZOOM_MAX - ZOOM_MIN)) * 100}%`);
+  $("#opt-zoom-out").textContent = `${Math.round(lensZoom * 100)} %`;
+  document.querySelectorAll<HTMLElement>("#opt-focus [data-focus]").forEach((b) => {
+    b.setAttribute("aria-checked", String(b.dataset.focus === lensFocus));
+  });
 
   toolopts.hidden = !source || (!kind && !selected);
   optColors.hidden = !showShape;
@@ -449,6 +569,19 @@ function syncChrome(): void {
 }
 
 $("#opt-delete").addEventListener("click", deleteSelected);
+
+const zoomInput = $<HTMLInputElement>("#opt-zoom");
+zoomInput.min = String(ZOOM_MIN);
+zoomInput.max = String(ZOOM_MAX);
+zoomInput.step = "0.05";
+zoomInput.addEventListener("input", () => applyZoom(Number(zoomInput.value)));
+
+$("#opt-focus").addEventListener("click", (e) => {
+  const b = (e.target as HTMLElement).closest<HTMLElement>("[data-focus]");
+  if (!b) return;
+  focus = b.dataset.focus as Focus;
+  applyToSelected({ focus });
+});
 $("#btn-undo").addEventListener("click", undo);
 $("#btn-redo").addEventListener("click", redo);
 
@@ -641,7 +774,7 @@ $("#btn-free-printscreen").addEventListener("click", () => void togglePrintscree
 async function togglePrintscreen(force?: boolean): Promise<void> {
   const enable = force ?? !(system?.snippingOwnsPrintscreen === false);
   try {
-    system = await invoke<SystemState>("set_printscreen_for_clicadre", { enabled: enable });
+    system = await invoke<SystemState>("set_printscreen_for_glossyshots", { enabled: enable });
     showToast(t(enable ? "toast.printscreenOn" : "toast.printscreenOff"));
   } catch (err) {
     showToast(t("toast.error", { msg: String(err) }), { error: true });
@@ -701,7 +834,7 @@ function relabel(): void {
 
 // ───────────────────────────── Clavier ─────────────────────────────
 
-const TOOL_KEYS: Record<string, Tool> = { v: "select", b: "blur", r: "rect", o: "ellipse", a: "arrow" };
+const TOOL_KEYS: Record<string, Tool> = { v: "select", b: "blur", m: "magnify", r: "rect", o: "ellipse", a: "arrow" };
 
 window.addEventListener("keydown", (e) => {
   const target = e.target as HTMLElement;

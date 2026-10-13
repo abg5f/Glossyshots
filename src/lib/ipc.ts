@@ -29,7 +29,7 @@ export async function savePng(canvas: HTMLCanvasElement): Promise<string> {
 function fileName(): string {
   const d = new Date();
   const p = (n: number) => String(n).padStart(2, "0");
-  return `Clicadre_${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}_${p(d.getHours())}-${p(d.getMinutes())}-${p(d.getSeconds())}.png`;
+  return `Glossyshots_${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}_${p(d.getHours())}-${p(d.getMinutes())}-${p(d.getSeconds())}.png`;
 }
 
 export interface SystemState {

@@ -39,7 +39,7 @@ const handlers: Record<string, Handler> = {
   },
   get_capture: () => wire(shot),
   copy_image: () => console.log("[mock] copy_image"),
-  save_png: () => "C:\Users\demo\Pictures\Clicadre\Clicadre.png",
+  save_png: () => "C:\Users\demo\Pictures\Glossyshots\Glossyshots.png",
   "plugin:event|listen": () => nextId++,
   "plugin:event|unlisten": () => null,
 };

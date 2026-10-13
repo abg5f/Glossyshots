@@ -1,4 +1,4 @@
-Diagnostique et corrige un bug dans Clicadre.
+Diagnostique et corrige un bug dans Glossyshots.
 
 Symptôme : $ARGUMENTS
 
