@@ -53,6 +53,7 @@ Glossyshots does the whole job in one pass, in about five seconds:
 - **Magnifier** (<kbd>M</kbd>): draw around an area to lift it with a shadow. Drag the zoomed view anywhere, resize it from its corners or with the mouse wheel (100 to 400 %), and choose whether the rest of the image stays normal, dimmed or blurred.
 - **Annotations**: circle (<kbd>O</kbd>), rectangle (<kbd>R</kbd>), arrow (<kbd>A</kbd>). Hold <kbd>Shift</kbd> for perfect circles, squares and 45° arrows.
 - **Backgrounds**: wallpapers, gradients, custom gradient, or none. Padding, corner radius and shadow sliders. Your last look is remembered.
+- **Auto-copy**: every capture lands in your clipboard, background included, the moment it is taken. Turn it off in Settings if you prefer to copy manually.
 - **Output**: <kbd>Ctrl</kbd>+<kbd>C</kbd> copies the full-resolution image, <kbd>Ctrl</kbd>+<kbd>S</kbd> saves a PNG to `Pictures/Glossyshots`.
 - **Undo / redo** (<kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd>), select and move (<kbd>V</kbd>), delete (<kbd>Del</kbd>).
 - Lives in the **notification area**, optional **launch at startup**.

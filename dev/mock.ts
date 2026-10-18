@@ -38,10 +38,30 @@ const handlers: Record<string, Handler> = {
     return wire(shot);
   },
   get_capture: () => wire(shot),
-  copy_image: () => console.log("[mock] copy_image"),
-  save_png: () => "C:\Users\demo\Pictures\Glossyshots\Glossyshots.png",
-  "plugin:event|listen": () => nextId++,
+  copy_image: () => {
+    copies++;
+    console.log("[mock] copy_image");
+  },
+  save_png: () => String.raw`C:\Users\demo\Pictures\Glossyshots\Glossyshots.png`,
+  "plugin:event|listen": (args) => {
+    listeners.set(args.event as string, args.handler as number);
+    return nextId++;
+  },
   "plugin:event|unlisten": () => null,
+};
+
+/** Événements écoutés par la page (nom → callback) et compteur de copies, pour les tests. */
+const listeners = new Map<string, number>();
+let copies = 0;
+(window as any).__mock = {
+  /** Simule un événement émis par le cœur natif, ex. `__mock.emit("editor:capture")`. */
+  emit(event: string, payload: unknown = null) {
+    const id = listeners.get(event);
+    if (id !== undefined) callbacks.get(id)?.({ event, id, payload });
+  },
+  get copies() {
+    return copies;
+  },
 };
 
 (window as any).__TAURI_INTERNALS__ = {

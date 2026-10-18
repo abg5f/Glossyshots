@@ -53,6 +53,7 @@ Glossyshots fait tout d'un seul geste, en cinq secondes environ :
 - **Loupe** (<kbd>M</kbd>) : entourez une zone pour la soulever avec une ombre. Déplacez la vue agrandie où vous voulez, redimensionnez-la par ses coins ou à la molette (100 à 400 %), et choisissez si le reste de l'image reste normal, assombri ou flouté.
 - **Annotations** : cercle (<kbd>O</kbd>), rectangle (<kbd>R</kbd>), flèche (<kbd>A</kbd>). Maintenez <kbd>Maj</kbd> pour un cercle ou un carré parfait et des flèches à 45°.
 - **Fonds** : fonds d'écran, dégradés, dégradé personnalisé ou aucun fond. Curseurs de marge, d'arrondi et d'ombre. Le dernier réglage est mémorisé.
+- **Copie automatique** : chaque capture arrive dans le presse-papiers, fond compris, dès qu'elle est prise. Désactivable dans les Réglages si vous préférez copier vous-même.
 - **Sortie** : <kbd>Ctrl</kbd>+<kbd>C</kbd> copie l'image en pleine résolution, <kbd>Ctrl</kbd>+<kbd>S</kbd> enregistre un PNG dans `Images/Glossyshots`.
 - **Annuler / rétablir** (<kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd>), sélection et déplacement (<kbd>V</kbd>), suppression (<kbd>Suppr</kbd>).
 - Réside dans la **zone de notification**, **lancement au démarrage** en option.

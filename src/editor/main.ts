@@ -50,6 +50,8 @@ let color = saved.color ?? COLORS[0];
 let size: Size = saved.size ?? 2;
 let zoom = saved.zoom ?? 1.5;
 let focus: Focus = saved.focus ?? "blur";
+/** Copie automatique de chaque nouvelle capture dans le presse-papiers (activée par défaut). */
+let autoCopy = saved.autoCopy ?? true;
 const look: Look = { ...defaultLook, ...saved.look };
 
 let view = { scale: 1, ox: 0, oy: 0 };
@@ -62,7 +64,15 @@ let drag:
 let frame = 0;
 let system: SystemState | null = null;
 
-function readStore(): { tool?: Tool; color?: string; size?: Size; zoom?: number; focus?: Focus; look?: Partial<Look> } {
+function readStore(): {
+  tool?: Tool;
+  color?: string;
+  size?: Size;
+  zoom?: number;
+  focus?: Focus;
+  autoCopy?: boolean;
+  look?: Partial<Look>;
+} {
   try {
     return JSON.parse(localStorage.getItem(STORE) ?? "{}");
   } catch {
@@ -72,7 +82,7 @@ function readStore(): { tool?: Tool; color?: string; size?: Size; zoom?: number;
 
 function persist(): void {
   try {
-    localStorage.setItem(STORE, JSON.stringify({ tool, color, size, zoom, focus, look }));
+    localStorage.setItem(STORE, JSON.stringify({ tool, color, size, zoom, focus, autoCopy, look }));
   } catch {
     /* stockage indisponible : préférences non mémorisées, sans gravité */
   }
@@ -708,13 +718,13 @@ async function withButton(id: string, job: () => Promise<void>): Promise<void> {
   }
 }
 
-function copy(): Promise<void> {
+function copy(auto = false): Promise<void> {
   return withButton("#btn-copy", async () => {
     await copyImage(exportCanvas(source!, look, annots));
     const btn = $("#btn-copy");
     btn.classList.add("is-done");
     setTimeout(() => btn.classList.remove("is-done"), 1400);
-    showToast(t("toast.copied"));
+    showToast(t(auto ? "toast.autoCopied" : "toast.copied"));
   });
 }
 
@@ -782,6 +792,12 @@ async function togglePrintscreen(force?: boolean): Promise<void> {
   syncSystem();
 }
 
+$("#sw-autocopy").addEventListener("click", () => {
+  autoCopy = !autoCopy;
+  persist();
+  syncSystem();
+});
+
 $("#sw-autostart").addEventListener("click", async () => {
   try {
     system = await invoke<SystemState>("set_autostart", { enabled: !system?.autostart });
@@ -806,6 +822,7 @@ function syncSystem(): void {
   $("#row-printscreen").hidden = !isWindows;
   $("#sw-printscreen").setAttribute("aria-checked", String(isWindows && !ownsKey));
   $("#sw-autostart").setAttribute("aria-checked", String(!!system?.autostart));
+  $("#sw-autocopy").setAttribute("aria-checked", String(autoCopy));
   $("#fallback-kbd").textContent = shortcutLabel(system?.fallbackShortcut ?? "Ctrl+Shift+X");
   $("#snip-notice").hidden = !ownsKey;
   document.querySelectorAll<HTMLElement>("#lang-switch [data-lang]").forEach((b) => {
@@ -895,6 +912,9 @@ async function loadCrop(animate: boolean): Promise<void> {
     canvas.classList.remove("is-arriving");
     void canvas.offsetWidth;
     canvas.classList.add("is-arriving");
+    // Nouvelle capture : elle part tout de suite dans le presse-papiers, fond compris.
+    // Une retouche ensuite se recopie avec Ctrl+C.
+    if (autoCopy) void copy(true);
   }
 }
 
