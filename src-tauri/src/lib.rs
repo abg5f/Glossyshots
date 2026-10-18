@@ -82,6 +82,41 @@ mod tests {
         assert_eq!(c.rgba, vec![3, 2, 0, 255]);
     }
 
+    /// Écrit réellement dans le presse-papiers : à lancer à la main
+    /// (`cargo test -- --ignored`), idéalement pendant qu'un autre processus l'occupe.
+    #[test]
+    #[ignore]
+    fn clipboard_write_survives_a_busy_clipboard() {
+        let started = std::time::Instant::now();
+        super::write_clipboard_image(2, 2, vec![255; 16]).expect("écriture du presse-papiers");
+        eprintln!("presse-papiers écrit en {:?}", started.elapsed());
+    }
+
+    /// Stress : à lancer pendant qu'un autre processus ouvre/ferme le presse-papiers en boucle.
+    /// Compare un essai unique (ancien comportement) aux essais répétés.
+    #[test]
+    #[ignore]
+    fn clipboard_stress_single_vs_retry() {
+        let n = 150;
+        let single = (0..n)
+            .filter(|_| {
+                arboard::Clipboard::new()
+                    .and_then(|mut c| {
+                        c.set_image(arboard::ImageData {
+                            width: 2,
+                            height: 2,
+                            bytes: std::borrow::Cow::Owned(vec![255; 16]),
+                        })
+                    })
+                    .is_err()
+            })
+            .count();
+        let retry = (0..n)
+            .filter(|_| super::write_clipboard_image(2, 2, vec![255; 16]).is_err())
+            .count();
+        eprintln!("échecs sur {n} copies : essai unique = {single}, avec nouvelles tentatives = {retry}");
+    }
+
     #[test]
     fn wire_format_has_size_header() {
         let w = grid().to_wire();
@@ -254,22 +289,48 @@ fn request_capture(app: AppHandle) {
 }
 
 /// Copie une image RGBA brute (en-têtes `x-width`, `x-height`) dans le presse-papiers.
+///
+/// Le presse-papiers Windows est une ressource partagée : un autre programme (historique
+/// Win+V, gestionnaire de mots de passe, outil de capture…) peut l'ouvrir au même instant,
+/// d'où des échecs passagers (erreur 1418, « presse-papiers occupé »). On écrit donc depuis
+/// un thread dédié et on réessaie quelques fois avant d'abandonner.
 #[tauri::command]
-fn copy_image(request: Request<'_>) -> Result<(), String> {
+async fn copy_image(request: Request<'_>) -> Result<(), String> {
     let width: usize = header(&request, "x-width")?.parse().map_err(|_| "largeur invalide")?;
     let height: usize = header(&request, "x-height")?.parse().map_err(|_| "hauteur invalide")?;
     let bytes = raw_body(&request)?;
     if bytes.len() != width * height * 4 {
         return Err("taille d'image incohérente".into());
     }
-    let mut clipboard = arboard::Clipboard::new().map_err(|e| e.to_string())?;
-    clipboard
-        .set_image(arboard::ImageData {
-            width,
-            height,
-            bytes: bytes.into(),
-        })
-        .map_err(|e| e.to_string())
+    tauri::async_runtime::spawn_blocking(move || write_clipboard_image(width, height, bytes))
+        .await
+        .map_err(|e| e.to_string())?
+}
+
+const CLIPBOARD_ATTEMPTS: u32 = 12;
+
+fn write_clipboard_image(width: usize, height: usize, bytes: Vec<u8>) -> Result<(), String> {
+    let mut last = String::new();
+    for attempt in 1..=CLIPBOARD_ATTEMPTS {
+        let result = arboard::Clipboard::new().and_then(|mut clipboard| {
+            clipboard.set_image(arboard::ImageData {
+                width,
+                height,
+                bytes: std::borrow::Cow::Borrowed(&bytes),
+            })
+        });
+        match result {
+            Ok(()) => return Ok(()),
+            // Image invalide : réessayer ne changerait rien.
+            Err(arboard::Error::ConversionFailure) => return Err("conversion de l'image impossible".into()),
+            Err(err) => {
+                last = err.to_string();
+                // Attente croissante : ~1,6 s au total sur 12 essais.
+                std::thread::sleep(std::time::Duration::from_millis(25 * u64::from(attempt)));
+            }
+        }
+    }
+    Err(format!("presse-papiers indisponible après {CLIPBOARD_ATTEMPTS} essais ({last})"))
 }
 
 /// Écrit un PNG déjà encodé dans `Images/Glossyshots/<x-filename>` et renvoie son chemin.
