@@ -1,0 +1,116 @@
+[
+ {
+  "id": "file:src/editor/main.ts",
+  "label": "src/editor/main.ts",
+  "type": "file",
+  "degree": 58
+ },
+ {
+  "id": "file:src-tauri/src/lib.rs",
+  "label": "src-tauri/src/lib.rs",
+  "type": "file",
+  "degree": 42
+ },
+ {
+  "id": "file:src-tauri/src/settings.rs",
+  "label": "src-tauri/src/settings.rs",
+  "type": "file",
+  "degree": 24
+ },
+ {
+  "id": "file:src/overlay/main.ts",
+  "label": "src/overlay/main.ts",
+  "type": "file",
+  "degree": 22
+ },
+ {
+  "id": "file:src/editor/render.ts",
+  "label": "src/editor/render.ts",
+  "type": "file",
+  "degree": 18
+ },
+ {
+  "id": "file:src-tauri/src/shortcut.rs",
+  "label": "src-tauri/src/shortcut.rs",
+  "type": "file",
+  "degree": 11
+ },
+ {
+  "id": "file:src/lib/i18n.ts",
+  "label": "src/lib/i18n.ts",
+  "type": "file",
+  "degree": 10
+ },
+ {
+  "id": "file:src-tauri/src/log.rs",
+  "label": "src-tauri/src/log.rs",
+  "type": "file",
+  "degree": 9
+ },
+ {
+  "id": "file:src-tauri/src/tray.rs",
+  "label": "src-tauri/src/tray.rs",
+  "type": "file",
+  "degree": 8
+ },
+ {
+  "id": "file:src/editor/backgrounds.ts",
+  "label": "src/editor/backgrounds.ts",
+  "type": "file",
+  "degree": 8
+ },
+ {
+  "id": "file:src/lib/ipc.ts",
+  "label": "src/lib/ipc.ts",
+  "type": "file",
+  "degree": 8
+ },
+ {
+  "id": "file:video/src/Demo.tsx",
+  "label": "video/src/Demo.tsx",
+  "type": "file",
+  "degree": 8
+ },
+ {
+  "id": "file:video/src/shot.tsx",
+  "label": "video/src/shot.tsx",
+  "type": "file",
+  "degree": 8
+ },
+ {
+  "id": "file:src/editor/redact.ts",
+  "label": "src/editor/redact.ts",
+  "type": "file",
+  "degree": 6
+ },
+ {
+  "id": "file:src/lib/icons.ts",
+  "label": "src/lib/icons.ts",
+  "type": "file",
+  "degree": 5
+ },
+ {
+  "id": "file:video/src/Promo.tsx",
+  "label": "video/src/Promo.tsx",
+  "type": "file",
+  "degree": 4
+ },
+ {
+  "id": "file:dev/fake-screenshot.ts",
+  "label": "dev/fake-screenshot.ts",
+  "type": "file",
+  "degree": 3
+ },
+ {
+  "id": "file:video/src/copy.ts",
+  "label": "video/src/copy.ts",
+  "type": "file",
+  "degree": 3
+ },
+ {
+  "id": "file:video/src/Root.tsx",
+  "label": "video/src/Root.tsx",
+  "type": "file",
+  "degree": 3
+ }
+]

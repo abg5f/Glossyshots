@@ -1,0 +1,2556 @@
+{
+ "nodes": [
+  {
+   "id": "file:dev/fake-screenshot.ts",
+   "label": "dev/fake-screenshot.ts",
+   "type": "file",
+   "summary": "Capture factice (page « Paramètres du compte ») pour l'aperçu navigateur et la vidéo."
+  },
+  {
+   "id": "fn:dev/fake-screenshot.ts:fakeScreenshot",
+   "label": "fakeScreenshot",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:dev/mock.ts",
+   "label": "dev/mock.ts",
+   "type": "file",
+   "summary": "Simulateur du cœur Rust pour prévisualiser l'interface dans un navigateur (tests visuels, captures du README, vidéo). Jamais inclus dans le build. Usage : npm run dev puis http://localhost:1420/dev/editor.html"
+  },
+  {
+   "id": "fn:dev/mock.ts:wire",
+   "label": "wire",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src-tauri/src/lib.rs",
+   "label": "src-tauri/src/lib.rs",
+   "type": "file",
+   "summary": "Glossyshots : cœur natif. Flux : raccourci global → capture de l'écran sous le curseur (xcap) → fenêtre `overlay` (sélection de zone sur l'image figée) → découpe → fenêtre `editor` (flou, annotations, fond) → presse-papiers / PNG. Les pixel"
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:to_wire",
+   "label": "to_wire",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:crop",
+   "label": "crop",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:grid",
+   "label": "grid",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:crop_keeps_the_right_pixels",
+   "label": "crop_keeps_the_right_pixels",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:crop_is_clamped_to_the_image",
+   "label": "crop_is_clamped_to_the_image",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:clipboard_write_survives_a_busy_clipboard",
+   "label": "clipboard_write_survives_a_busy_clipboard",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:clipboard_stress_single_vs_retry",
+   "label": "clipboard_stress_single_vs_retry",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:wire_format_has_size_header",
+   "label": "wire_format_has_size_header",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:start_capture",
+   "label": "start_capture",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:capture_under_cursor",
+   "label": "capture_under_cursor",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:watch_overlay",
+   "label": "watch_overlay",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:watch_editor",
+   "label": "watch_editor",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:show_editor",
+   "label": "show_editor",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:raw_body",
+   "label": "raw_body",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:header",
+   "label": "header",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "cmd:get_capture",
+   "label": "get_capture",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:overlay_ready",
+   "label": "overlay_ready",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:commit_selection",
+   "label": "commit_selection",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:cancel_capture",
+   "label": "cancel_capture",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:capture_pending",
+   "label": "capture_pending",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:take_editor_pending",
+   "label": "take_editor_pending",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:get_crop",
+   "label": "get_crop",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:request_capture",
+   "label": "request_capture",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:copy_image",
+   "label": "copy_image",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:write_clipboard_image",
+   "label": "write_clipboard_image",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "cmd:save_png",
+   "label": "save_png",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:reveal_path",
+   "label": "reveal_path",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/lib.rs:run",
+   "label": "run",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "event:overlay:capture",
+   "label": "overlay:capture",
+   "type": "event",
+   "summary": ""
+  },
+  {
+   "id": "event:editor:capture",
+   "label": "editor:capture",
+   "type": "event",
+   "summary": ""
+  },
+  {
+   "id": "type:Shot",
+   "label": "Shot",
+   "type": "struct",
+   "summary": ""
+  },
+  {
+   "id": "type:AppState",
+   "label": "AppState",
+   "type": "struct",
+   "summary": ""
+  },
+  {
+   "id": "type:CaptureMeta",
+   "label": "CaptureMeta",
+   "type": "struct",
+   "summary": ""
+  },
+  {
+   "id": "crate:xcap",
+   "label": "xcap",
+   "type": "dependency",
+   "summary": ""
+  },
+  {
+   "id": "crate:arboard",
+   "label": "arboard",
+   "type": "dependency",
+   "summary": ""
+  },
+  {
+   "id": "crate:tauri_plugin_autostart",
+   "label": "tauri_plugin_autostart",
+   "type": "dependency",
+   "summary": ""
+  },
+  {
+   "id": "crate:tauri_plugin_single_instance",
+   "label": "tauri_plugin_single_instance",
+   "type": "dependency",
+   "summary": ""
+  },
+  {
+   "id": "file:src-tauri/src/log.rs",
+   "label": "src-tauri/src/log.rs",
+   "type": "file",
+   "summary": "Journal minimal dans `<app_log_dir>/glossyshots.log`. En version installée, la console n'existe pas : sans ce fichier, un raccourci perdu ou une fenêtre qui ne répond plus ne laisse aucune trace. Le fichier reste local (aucun envoi) et tour"
+  },
+  {
+   "id": "fn:src-tauri/src/log.rs:init",
+   "label": "init",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/log.rs:write",
+   "label": "write",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/log.rs:timestamp",
+   "label": "timestamp",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src-tauri/src/main.rs",
+   "label": "src-tauri/src/main.rs",
+   "type": "file",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/main.rs:main",
+   "label": "main",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src-tauri/src/settings.rs",
+   "label": "src-tauri/src/settings.rs",
+   "type": "file",
+   "summary": "Préférences persistées (langue) et état système (Impr. écran, démarrage auto)."
+  },
+  {
+   "id": "fn:src-tauri/src/settings.rs:file",
+   "label": "file",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/settings.rs:load",
+   "label": "load",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/settings.rs:persist",
+   "label": "persist",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/settings.rs:language",
+   "label": "language",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/settings.rs:init_autostart",
+   "label": "init_autostart",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/settings.rs:mark_autostart_initialized",
+   "label": "mark_autostart_initialized",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "cmd:get_settings",
+   "label": "get_settings",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:set_language",
+   "label": "set_language",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:get_system_state",
+   "label": "get_system_state",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:set_printscreen_for_glossyshots",
+   "label": "set_printscreen_for_glossyshots",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "cmd:set_autostart",
+   "label": "set_autostart",
+   "type": "tauri-command",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/settings.rs:owns_printscreen",
+   "label": "owns_printscreen",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/settings.rs:set_owns_printscreen",
+   "label": "set_owns_printscreen",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/settings.rs:remove_clicadre_autostart",
+   "label": "remove_clicadre_autostart",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "type:Settings",
+   "label": "Settings",
+   "type": "struct",
+   "summary": ""
+  },
+  {
+   "id": "type:SettingsStore",
+   "label": "SettingsStore",
+   "type": "struct",
+   "summary": ""
+  },
+  {
+   "id": "type:SystemState",
+   "label": "SystemState",
+   "type": "struct",
+   "summary": ""
+  },
+  {
+   "id": "crate:winreg",
+   "label": "winreg",
+   "type": "dependency",
+   "summary": ""
+  },
+  {
+   "id": "file:src-tauri/src/shortcut.rs",
+   "label": "src-tauri/src/shortcut.rs",
+   "type": "file",
+   "summary": "Raccourcis globaux : Impr. écran (Windows/Linux) + un raccourci de secours. Deux pièges Windows, gérés ici : - Impr. écran avec une touche de modification encore enfoncée (Alt après un Alt+Tab, Ctrl, Maj) n'est pas « Impr. écran » pour le s"
+  },
+  {
+   "id": "fn:src-tauri/src/shortcut.rs:fallback",
+   "label": "fallback",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/shortcut.rs:printscreen_variants",
+   "label": "printscreen_variants",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/shortcut.rs:plugin",
+   "label": "plugin",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/shortcut.rs:register_all",
+   "label": "register_all",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/shortcut.rs:start_watchdog",
+   "label": "start_watchdog",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/shortcut.rs:printscreen_is_free",
+   "label": "printscreen_is_free",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "crate:windows_sys",
+   "label": "windows_sys",
+   "type": "dependency",
+   "summary": ""
+  },
+  {
+   "id": "crate:tauri_plugin_global_shortcut",
+   "label": "tauri_plugin_global_shortcut",
+   "type": "dependency",
+   "summary": ""
+  },
+  {
+   "id": "file:src-tauri/src/tray.rs",
+   "label": "src-tauri/src/tray.rs",
+   "type": "file",
+   "summary": "Icône de la zone de notification, libellés selon la langue choisie."
+  },
+  {
+   "id": "fn:src-tauri/src/tray.rs:labels",
+   "label": "labels",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/tray.rs:menu",
+   "label": "menu",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/tray.rs:build",
+   "label": "build",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src-tauri/src/tray.rs:refresh",
+   "label": "refresh",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "type:Labels",
+   "label": "Labels",
+   "type": "struct",
+   "summary": ""
+  },
+  {
+   "id": "file:src/editor/backgrounds.ts",
+   "label": "src/editor/backgrounds.ts",
+   "type": "file",
+   "summary": "Fonds générés (aucune image embarquée : zéro poids, zéro droit d'auteur, net à toute taille). « Fonds d'écran » : dégradés maillés, taches de lumière superposées façon Bloom. « Dégradés » : linéaires à deux ou trois arrêts."
+  },
+  {
+   "id": "fn:src/editor/backgrounds.ts:mesh",
+   "label": "mesh",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/backgrounds.ts:transparent",
+   "label": "transparent",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/backgrounds.ts:linear",
+   "label": "linear",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/backgrounds.ts:customGradient",
+   "label": "customGradient",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/backgrounds.ts:thumbnail",
+   "label": "thumbnail",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src/editor/main.ts",
+   "label": "src/editor/main.ts",
+   "type": "file",
+   "summary": "Éditeur : une capture, des masquages et annotations modifiables, un fond. L'état vit ici ; le dessin est délégué à `render.ts` (affichage et export partagés)."
+  },
+  {
+   "id": "fn:src/editor/main.ts:readStore",
+   "label": "readStore",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:persist",
+   "label": "persist",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:invalidate",
+   "label": "invalidate",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:fit",
+   "label": "fit",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:paint",
+   "label": "paint",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:drawSelection",
+   "label": "drawSelection",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:handles",
+   "label": "handles",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:toImage",
+   "label": "toImage",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:checkpoint",
+   "label": "checkpoint",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:undo",
+   "label": "undo",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:redo",
+   "label": "redo",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:hitHandle",
+   "label": "hitHandle",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:hitLens",
+   "label": "hitLens",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:hitAnnot",
+   "label": "hitAnnot",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:distToSegment",
+   "label": "distToSegment",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:constrain",
+   "label": "constrain",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:resize",
+   "label": "resize",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:setZoomOf",
+   "label": "setZoomOf",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:checkpointOnce",
+   "label": "checkpointOnce",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:applyZoom",
+   "label": "applyZoom",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:sameGeometry",
+   "label": "sameGeometry",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:updateCursor",
+   "label": "updateCursor",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:deleteSelected",
+   "label": "deleteSelected",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:setTool",
+   "label": "setTool",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:buildToolOptions",
+   "label": "buildToolOptions",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:applyToSelected",
+   "label": "applyToSelected",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:syncChrome",
+   "label": "syncChrome",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:buildSwatches",
+   "label": "buildSwatches",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:onSwatch",
+   "label": "onSwatch",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:initSliders",
+   "label": "initSliders",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:setLook",
+   "label": "setLook",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:syncPanel",
+   "label": "syncPanel",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:updateMeta",
+   "label": "updateMeta",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:showToast",
+   "label": "showToast",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:withButton",
+   "label": "withButton",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:copy",
+   "label": "copy",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:save",
+   "label": "save",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:toggleSettings",
+   "label": "toggleSettings",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:togglePrintscreen",
+   "label": "togglePrintscreen",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:refreshSystem",
+   "label": "refreshSystem",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:syncSystem",
+   "label": "syncSystem",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:shortcutLabel",
+   "label": "shortcutLabel",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:relabel",
+   "label": "relabel",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:loadCrop",
+   "label": "loadCrop",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/main.ts:main",
+   "label": "main",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src/editor/redact.ts",
+   "label": "src/editor/redact.ts",
+   "type": "file",
+   "summary": "Flou sécurisé. Un flou classique (gaussien, réduction/agrandissement, pixelisation) calcule chaque pixel masqué à partir des pixels cachés : c'est ce qui le rend attaquable (déconvolution, comparaison avec des rendus de texte connus, réseau"
+  },
+  {
+   "id": "fn:src/editor/redact.ts:rng",
+   "label": "rng",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/redact.ts:average",
+   "label": "average",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/redact.ts:edge",
+   "label": "edge",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/redact.ts:grainTile",
+   "label": "grainTile",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/redact.ts:secureFill",
+   "label": "secureFill",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src/editor/render.ts",
+   "label": "src/editor/render.ts",
+   "type": "file",
+   "summary": "Rendu de la composition : fond → ombre → capture arrondie → masquages → mise au point → formes → loupes. Une seule fonction sert à l'affichage (réduit) et à l'export (pleine résolution)."
+  },
+  {
+   "id": "fn:src/editor/render.ts:scaled",
+   "label": "scaled",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:layout",
+   "label": "layout",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:bounds",
+   "label": "bounds",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:lensRect",
+   "label": "lensRect",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:redactions",
+   "label": "redactions",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:drawImageLayer",
+   "label": "drawImageLayer",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:drawShapes",
+   "label": "drawShapes",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:focusOf",
+   "label": "focusOf",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:render",
+   "label": "render",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:drawLens",
+   "label": "drawLens",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:strokeWidth",
+   "label": "strokeWidth",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:drawShape",
+   "label": "drawShape",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:drawArrow",
+   "label": "drawArrow",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/editor/render.ts:exportCanvas",
+   "label": "exportCanvas",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src/lib/i18n.ts",
+   "label": "src/lib/i18n.ts",
+   "type": "file",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/i18n.ts:lang",
+   "label": "lang",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/i18n.ts:t",
+   "label": "t",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/i18n.ts:applyI18n",
+   "label": "applyI18n",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/i18n.ts:systemLang",
+   "label": "systemLang",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/i18n.ts:initLang",
+   "label": "initLang",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/i18n.ts:setLang",
+   "label": "setLang",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src/lib/icons.ts",
+   "label": "src/lib/icons.ts",
+   "type": "file",
+   "summary": "Icônes au trait (dessin Lucide, ISC). Une seule famille, un seul trait."
+  },
+  {
+   "id": "fn:src/lib/icons.ts:icon",
+   "label": "icon",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/icons.ts:hydrateIcons",
+   "label": "hydrateIcons",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src/lib/ipc.ts",
+   "label": "src/lib/ipc.ts",
+   "type": "file",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/ipc.ts:fetchShot",
+   "label": "fetchShot",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/ipc.ts:copyImage",
+   "label": "copyImage",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/ipc.ts:savePng",
+   "label": "savePng",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/lib/ipc.ts:fileName",
+   "label": "fileName",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:src/overlay/main.ts",
+   "label": "src/overlay/main.ts",
+   "type": "file",
+   "summary": "Overlay de sélection : l'écran figé, assombri, et une zone découpée en pleine lumière. Tout le dessin passe par deux canvas ; aucun reflow pendant le glisser."
+  },
+  {
+   "id": "fn:src/overlay/main.ts:ratio",
+   "label": "ratio",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:resizeUi",
+   "label": "resizeUi",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:normalize",
+   "label": "normalize",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:invalidate",
+   "label": "invalidate",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:draw",
+   "label": "draw",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:drawSelection",
+   "label": "drawSelection",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:drawGuides",
+   "label": "drawGuides",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:drawLoupe",
+   "label": "drawLoupe",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:updateBadge",
+   "label": "updateBadge",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:reset",
+   "label": "reset",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:commit",
+   "label": "commit",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:cancel",
+   "label": "cancel",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:onCapture",
+   "label": "onCapture",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:src/overlay/main.ts:main",
+   "label": "main",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:video/src/Demo.tsx",
+   "label": "video/src/Demo.tsx",
+   "type": "file",
+   "summary": "Glossyshots : vidéo de présentation (≈35 s, 1920×1080, 30 i/s). Accroche → capture brute → Impr. écran → flou & cercle → fonds → avant/après → atouts → fin."
+  },
+  {
+   "id": "fn:video/src/Demo.tsx:io",
+   "label": "io",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:video/src/Demo.tsx:track",
+   "label": "track",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:video/src/Demo.tsx:cues",
+   "label": "cues",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "file:video/src/Promo.tsx",
+   "label": "video/src/Promo.tsx",
+   "type": "file",
+   "summary": "Visuel fixe pour les posts (Reddit, réseaux) : la loupe en vedette. Rendu avec le vrai moteur de l'app, comme la vidéo."
+  },
+  {
+   "id": "file:video/src/Root.tsx",
+   "label": "video/src/Root.tsx",
+   "type": "file",
+   "summary": ""
+  },
+  {
+   "id": "file:video/src/copy.ts",
+   "label": "video/src/copy.ts",
+   "type": "file",
+   "summary": ""
+  },
+  {
+   "id": "file:video/src/index.ts",
+   "label": "video/src/index.ts",
+   "type": "file",
+   "summary": ""
+  },
+  {
+   "id": "file:video/src/shot.tsx",
+   "label": "video/src/shot.tsx",
+   "type": "file",
+   "summary": "Pont entre Remotion et le vrai moteur de rendu de Glossyshots (`src/editor/render.ts`) : ce que montre la vidéo est exactement ce que produit l'application."
+  },
+  {
+   "id": "fn:video/src/shot.tsx:loadSource",
+   "label": "loadSource",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:video/src/shot.tsx:useSource",
+   "label": "useSource",
+   "type": "function",
+   "summary": ""
+  },
+  {
+   "id": "fn:video/src/shot.tsx:place",
+   "label": "place",
+   "type": "function",
+   "summary": ""
+  }
+ ],
+ "edges": [
+  {
+   "source": "file:dev/fake-screenshot.ts",
+   "target": "fn:dev/fake-screenshot.ts:fakeScreenshot",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:dev/mock.ts",
+   "target": "fn:dev/mock.ts:wire",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:dev/mock.ts",
+   "target": "file:dev/fake-screenshot.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:to_wire",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:crop",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:grid",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:crop_keeps_the_right_pixels",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:crop_is_clamped_to_the_image",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:clipboard_write_survives_a_busy_clipboard",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:clipboard_stress_single_vs_retry",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:wire_format_has_size_header",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:start_capture",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:capture_under_cursor",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:watch_overlay",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:watch_editor",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:show_editor",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:raw_body",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:header",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:get_capture",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:overlay_ready",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:commit_selection",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:cancel_capture",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:capture_pending",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:take_editor_pending",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:get_crop",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:request_capture",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:copy_image",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:write_clipboard_image",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:save_png",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "cmd:reveal_path",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "fn:src-tauri/src/lib.rs:run",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "file:src-tauri/src/log.rs",
+   "relation": "declares-mod",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "file:src-tauri/src/settings.rs",
+   "relation": "declares-mod",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "file:src-tauri/src/shortcut.rs",
+   "relation": "declares-mod",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "file:src-tauri/src/tray.rs",
+   "relation": "declares-mod",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "file:src-tauri/src/log.rs",
+   "relation": "uses",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "event:overlay:capture",
+   "relation": "emits",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "event:editor:capture",
+   "relation": "emits",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "type:Shot",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "type:AppState",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "type:CaptureMeta",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "crate:xcap",
+   "relation": "depends-on",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "crate:arboard",
+   "relation": "depends-on",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "crate:tauri_plugin_autostart",
+   "relation": "depends-on",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/lib.rs",
+   "target": "crate:tauri_plugin_single_instance",
+   "relation": "depends-on",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/log.rs",
+   "target": "fn:src-tauri/src/log.rs:init",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/log.rs",
+   "target": "fn:src-tauri/src/log.rs:write",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/log.rs",
+   "target": "fn:src-tauri/src/log.rs:timestamp",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/log.rs",
+   "target": "file:src-tauri/src/log.rs",
+   "relation": "uses",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/main.rs",
+   "target": "fn:src-tauri/src/main.rs:main",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "fn:src-tauri/src/settings.rs:file",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "fn:src-tauri/src/settings.rs:load",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "fn:src-tauri/src/settings.rs:persist",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "fn:src-tauri/src/settings.rs:language",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "fn:src-tauri/src/settings.rs:init_autostart",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "fn:src-tauri/src/settings.rs:mark_autostart_initialized",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "cmd:get_settings",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "cmd:set_language",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "cmd:get_system_state",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "cmd:set_printscreen_for_glossyshots",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "cmd:set_autostart",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "fn:src-tauri/src/settings.rs:owns_printscreen",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "fn:src-tauri/src/settings.rs:set_owns_printscreen",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "fn:src-tauri/src/settings.rs:remove_clicadre_autostart",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "file:src-tauri/src/log.rs",
+   "relation": "uses",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "file:src-tauri/src/tray.rs",
+   "relation": "uses",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "file:src-tauri/src/shortcut.rs",
+   "relation": "uses",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "type:Settings",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "type:SettingsStore",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "type:SystemState",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "crate:winreg",
+   "relation": "depends-on",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/settings.rs",
+   "target": "crate:tauri_plugin_autostart",
+   "relation": "depends-on",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/shortcut.rs",
+   "target": "fn:src-tauri/src/shortcut.rs:fallback",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/shortcut.rs",
+   "target": "fn:src-tauri/src/shortcut.rs:printscreen_variants",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/shortcut.rs",
+   "target": "fn:src-tauri/src/shortcut.rs:plugin",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/shortcut.rs",
+   "target": "fn:src-tauri/src/shortcut.rs:register_all",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/shortcut.rs",
+   "target": "fn:src-tauri/src/shortcut.rs:start_watchdog",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/shortcut.rs",
+   "target": "fn:src-tauri/src/shortcut.rs:printscreen_is_free",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/shortcut.rs",
+   "target": "file:src-tauri/src/log.rs",
+   "relation": "uses",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/shortcut.rs",
+   "target": "crate:windows_sys",
+   "relation": "depends-on",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/shortcut.rs",
+   "target": "crate:tauri_plugin_global_shortcut",
+   "relation": "depends-on",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/tray.rs",
+   "target": "fn:src-tauri/src/tray.rs:labels",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/tray.rs",
+   "target": "fn:src-tauri/src/tray.rs:menu",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/tray.rs",
+   "target": "fn:src-tauri/src/tray.rs:build",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/tray.rs",
+   "target": "fn:src-tauri/src/tray.rs:refresh",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/tray.rs",
+   "target": "file:src-tauri/src/settings.rs",
+   "relation": "uses",
+   "weight": 1
+  },
+  {
+   "source": "file:src-tauri/src/tray.rs",
+   "target": "type:Labels",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/backgrounds.ts",
+   "target": "fn:src/editor/backgrounds.ts:mesh",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/backgrounds.ts",
+   "target": "fn:src/editor/backgrounds.ts:transparent",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/backgrounds.ts",
+   "target": "fn:src/editor/backgrounds.ts:linear",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/backgrounds.ts",
+   "target": "fn:src/editor/backgrounds.ts:customGradient",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/backgrounds.ts",
+   "target": "fn:src/editor/backgrounds.ts:thumbnail",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:readStore",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:persist",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:invalidate",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:fit",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:paint",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:drawSelection",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:handles",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:toImage",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:checkpoint",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:undo",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:redo",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:hitHandle",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:hitLens",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:hitAnnot",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:distToSegment",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:constrain",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:resize",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:setZoomOf",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:checkpointOnce",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:applyZoom",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:sameGeometry",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:updateCursor",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:deleteSelected",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:setTool",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:buildToolOptions",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:applyToSelected",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:syncChrome",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:buildSwatches",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:onSwatch",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:initSliders",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:setLook",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:syncPanel",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:updateMeta",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:showToast",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:withButton",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:copy",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:save",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:toggleSettings",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:togglePrintscreen",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:refreshSystem",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:syncSystem",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:shortcutLabel",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:relabel",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:loadCrop",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "fn:src/editor/main.ts:main",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "file:src/lib/i18n.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "file:src/lib/icons.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "file:src/lib/ipc.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "file:src/editor/backgrounds.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "file:src/editor/render.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "cmd:reveal_path",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "cmd:request_capture",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "cmd:set_printscreen_for_glossyshots",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "cmd:set_autostart",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "cmd:get_system_state",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "cmd:get_crop",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "cmd:take_editor_pending",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/main.ts",
+   "target": "event:editor:capture",
+   "relation": "listens",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/redact.ts",
+   "target": "fn:src/editor/redact.ts:rng",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/redact.ts",
+   "target": "fn:src/editor/redact.ts:average",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/redact.ts",
+   "target": "fn:src/editor/redact.ts:edge",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/redact.ts",
+   "target": "fn:src/editor/redact.ts:grainTile",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/redact.ts",
+   "target": "fn:src/editor/redact.ts:secureFill",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:scaled",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:layout",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:bounds",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:lensRect",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:redactions",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:drawImageLayer",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:drawShapes",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:focusOf",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:render",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:drawLens",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:strokeWidth",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:drawShape",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:drawArrow",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "fn:src/editor/render.ts:exportCanvas",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "file:src/editor/backgrounds.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src/editor/render.ts",
+   "target": "file:src/editor/redact.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/i18n.ts",
+   "target": "fn:src/lib/i18n.ts:lang",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/i18n.ts",
+   "target": "fn:src/lib/i18n.ts:t",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/i18n.ts",
+   "target": "fn:src/lib/i18n.ts:applyI18n",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/i18n.ts",
+   "target": "fn:src/lib/i18n.ts:systemLang",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/i18n.ts",
+   "target": "fn:src/lib/i18n.ts:initLang",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/i18n.ts",
+   "target": "fn:src/lib/i18n.ts:setLang",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/i18n.ts",
+   "target": "cmd:get_settings",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/i18n.ts",
+   "target": "cmd:set_language",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/icons.ts",
+   "target": "fn:src/lib/icons.ts:icon",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/icons.ts",
+   "target": "fn:src/lib/icons.ts:hydrateIcons",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/ipc.ts",
+   "target": "fn:src/lib/ipc.ts:fetchShot",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/ipc.ts",
+   "target": "fn:src/lib/ipc.ts:copyImage",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/ipc.ts",
+   "target": "fn:src/lib/ipc.ts:savePng",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/ipc.ts",
+   "target": "fn:src/lib/ipc.ts:fileName",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/ipc.ts",
+   "target": "cmd:copy_image",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/lib/ipc.ts",
+   "target": "cmd:save_png",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:ratio",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:resizeUi",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:normalize",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:invalidate",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:draw",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:drawSelection",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:drawGuides",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:drawLoupe",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:updateBadge",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:reset",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:commit",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:cancel",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:onCapture",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "fn:src/overlay/main.ts:main",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "file:src/lib/i18n.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "file:src/lib/ipc.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "cmd:commit_selection",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "cmd:cancel_capture",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "cmd:get_capture",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "cmd:overlay_ready",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "cmd:capture_pending",
+   "relation": "invokes",
+   "weight": 1
+  },
+  {
+   "source": "file:src/overlay/main.ts",
+   "target": "event:overlay:capture",
+   "relation": "listens",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Demo.tsx",
+   "target": "fn:video/src/Demo.tsx:io",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Demo.tsx",
+   "target": "fn:video/src/Demo.tsx:track",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Demo.tsx",
+   "target": "fn:video/src/Demo.tsx:cues",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Demo.tsx",
+   "target": "file:src/editor/backgrounds.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Demo.tsx",
+   "target": "file:src/lib/icons.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Demo.tsx",
+   "target": "file:video/src/copy.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Demo.tsx",
+   "target": "file:video/src/shot.tsx",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Promo.tsx",
+   "target": "file:src/lib/icons.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Promo.tsx",
+   "target": "file:video/src/copy.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Promo.tsx",
+   "target": "file:video/src/shot.tsx",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Root.tsx",
+   "target": "file:video/src/Demo.tsx",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/Root.tsx",
+   "target": "file:video/src/Promo.tsx",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/index.ts",
+   "target": "file:video/src/Root.tsx",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/shot.tsx",
+   "target": "fn:video/src/shot.tsx:loadSource",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/shot.tsx",
+   "target": "fn:video/src/shot.tsx:useSource",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/shot.tsx",
+   "target": "fn:video/src/shot.tsx:place",
+   "relation": "defines",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/shot.tsx",
+   "target": "file:dev/fake-screenshot.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/shot.tsx",
+   "target": "file:src/editor/render.ts",
+   "relation": "imports",
+   "weight": 1
+  },
+  {
+   "source": "file:video/src/shot.tsx",
+   "target": "file:video/src/copy.ts",
+   "relation": "imports",
+   "weight": 1
+  }
+ ]
+}

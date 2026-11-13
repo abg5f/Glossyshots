@@ -80,4 +80,4 @@ Le graphe de connaissances (skill `/graphify`) vit dans `graphify-out/`. Pour ex
 - god nodes / communautés listés dans `graphify-out/index.md`
 
 > Note : `graphify` est un skill (Claude écrit `graphify-out/`), pas un CLI shell.
-> Pas encore généré : à créer au prochain `/save`.
+> Généré le 2026-11-13 (analyse statique : fichiers, fonctions, commandes IPC, événements).
