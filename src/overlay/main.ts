@@ -312,12 +312,14 @@ async function main(): Promise<void> {
   await initLang();
   applyI18n();
   resizeUi();
-  await listen("overlay:capture", () => {
+  const run = () =>
     onCapture().catch((err) => {
       console.error(err);
       void cancel();
     });
-  });
+  await listen("overlay:capture", run);
+  // Page rechargée par le délai de garde natif : une capture attend d'être affichée.
+  if (await invoke<boolean>("capture_pending")) void run();
 }
 
 void main();

@@ -7,6 +7,7 @@ use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager};
 use tauri_plugin_autostart::ManagerExt;
 
+use crate::log::log;
 use crate::AppState;
 
 #[derive(Serialize, Deserialize, Clone, Default)]
@@ -14,6 +15,10 @@ use crate::AppState;
 pub struct Settings {
     /// `"fr"` ou `"en"`. `None` tant que le front n'a pas détecté la langue du système.
     pub language: Option<String>,
+    /// Le démarrage avec le système a déjà été proposé (activé par défaut une fois,
+    /// ensuite seul le choix de l'utilisateur compte).
+    #[serde(default)]
+    pub autostart_initialized: bool,
 }
 
 pub struct SettingsStore(pub Mutex<Settings>);
@@ -49,6 +54,38 @@ pub fn language(app: &AppHandle) -> String {
         .language
         .clone()
         .unwrap_or_else(|| "fr".into())
+}
+
+/// Démarrage avec le système : activé d'office la première fois (un outil de capture
+/// qui ne tourne pas ne sert à rien), puis respecté tel que l'utilisateur l'a réglé.
+/// S'il est actif, l'entrée est réécrite pour pointer sur l'exécutable courant
+/// (l'app a pu être réinstallée ailleurs depuis).
+pub fn init_autostart(app: &AppHandle) {
+    legacy::remove_clicadre_autostart();
+    let launcher = app.autolaunch();
+    let initialized = app.state::<SettingsStore>().0.lock().unwrap().autostart_initialized;
+    if !initialized {
+        match launcher.enable() {
+            Ok(()) => mark_autostart_initialized(app),
+            Err(err) => log!("démarrage automatique impossible à activer : {err}"),
+        }
+    } else if launcher.is_enabled().unwrap_or(false) {
+        if let Err(err) = launcher.enable() {
+            log!("démarrage automatique impossible à mettre à jour : {err}");
+        }
+    }
+}
+
+fn mark_autostart_initialized(app: &AppHandle) {
+    let snapshot = {
+        let store = app.state::<SettingsStore>();
+        let mut s = store.0.lock().unwrap();
+        s.autostart_initialized = true;
+        s.clone()
+    };
+    if let Err(err) = persist(app, &snapshot) {
+        log!("préférences non enregistrées : {err}");
+    }
 }
 
 #[tauri::command]
@@ -112,6 +149,7 @@ pub fn set_autostart(app: AppHandle, enabled: bool) -> Result<SystemState, Strin
     let launcher = app.autolaunch();
     let result = if enabled { launcher.enable() } else { launcher.disable() };
     result.map_err(|e| e.to_string())?;
+    mark_autostart_initialized(&app);
     Ok(get_system_state(app))
 }
 
@@ -137,6 +175,35 @@ mod snipping {
             .map_err(|e| e.to_string())?;
         key.set_value(VALUE, &(owns as u32)).map_err(|e| e.to_string())
     }
+}
+
+/// Glossyshots s'appelait Clicadre. Une ancienne entrée de démarrage « Clicadre » lance
+/// l'ancienne app à l'ouverture de session : elle s'empare d'Impr. écran avant nous.
+#[cfg(windows)]
+mod legacy {
+    use winreg::enums::{HKEY_CURRENT_USER, KEY_SET_VALUE};
+    use winreg::RegKey;
+
+    use crate::log::log;
+
+    pub fn remove_clicadre_autostart() {
+        let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+        let run = r"Software\Microsoft\Windows\CurrentVersion\Run";
+        let approved = r"Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run";
+        if let Ok(key) = hkcu.open_subkey_with_flags(run, KEY_SET_VALUE) {
+            if key.delete_value("Clicadre").is_ok() {
+                log!("ancienne entrée de démarrage « Clicadre » supprimée");
+            }
+        }
+        if let Ok(key) = hkcu.open_subkey_with_flags(approved, KEY_SET_VALUE) {
+            let _ = key.delete_value("Clicadre");
+        }
+    }
+}
+
+#[cfg(not(windows))]
+mod legacy {
+    pub fn remove_clicadre_autostart() {}
 }
 
 #[cfg(not(windows))]

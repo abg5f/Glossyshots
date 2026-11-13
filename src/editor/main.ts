@@ -933,8 +933,13 @@ async function main(): Promise<void> {
   syncPanel();
   syncChrome();
   await refreshSystem();
-  await listen("editor:capture", () => void loadCrop(true));
-  await loadCrop(false);
+  await listen("editor:capture", async () => {
+    await invoke("take_editor_pending");
+    await loadCrop(true);
+  });
+  // Au démarrage (ou après un rechargement de secours), une capture peut déjà attendre :
+  // elle est alors traitée comme neuve, copie automatique comprise.
+  await loadCrop(await invoke<boolean>("take_editor_pending"));
 }
 
 void main();

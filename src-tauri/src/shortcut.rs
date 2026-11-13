@@ -6,13 +6,15 @@
 //!   copie alors l'écran ou la fenêtre active en silence. On réserve donc aussi ces variantes.
 //! - Une réservation peut être perdue en cours de session (veille, reprise, autre logiciel
 //!   de capture). Une surveillance vérifie régulièrement que la touche est toujours à nous
-//!   et la reprend sinon, sans qu'il faille relancer l'app.
+//!   et la reprend sinon, sans qu'il faille relancer l'app. Au réveil, on réenregistre
+//!   tout par précaution : la réservation peut sembler tenue sans plus rien recevoir.
 
 use std::sync::atomic::Ordering;
 
 use tauri::{AppHandle, Manager, Wry};
 use tauri_plugin_global_shortcut::{Code, GlobalShortcutExt, Modifiers, Shortcut, ShortcutState};
 
+use crate::log::log;
 use crate::AppState;
 
 #[cfg(target_os = "macos")]
@@ -55,7 +57,7 @@ pub fn register_all(app: &AppHandle) {
     let gs = app.global_shortcut();
     let _ = gs.unregister_all();
     if let Err(err) = gs.register(fallback()) {
-        eprintln!("[glossyshots] raccourci de secours indisponible : {err}");
+        log!("raccourci de secours indisponible : {err}");
     }
     let mut ok = false;
     if !cfg!(target_os = "macos") {
@@ -67,6 +69,9 @@ pub fn register_all(app: &AppHandle) {
             }
         }
     }
+    if !cfg!(target_os = "macos") && !ok {
+        log!("Impr. écran est réservée par une autre application");
+    }
     app.state::<AppState>()
         .printscreen_registered
         .store(ok, Ordering::SeqCst);
@@ -77,12 +82,28 @@ pub fn start_watchdog(app: &AppHandle) {
     #[cfg(windows)]
     {
         let app = app.clone();
-        std::thread::spawn(move || loop {
-            std::thread::sleep(std::time::Duration::from_secs(10));
-            if printscreen_is_free() {
-                eprintln!("[glossyshots] Impr. écran n'était plus réservée : nouvelle réservation");
-                let handle = app.clone();
-                let _ = app.run_on_main_thread(move || register_all(&handle));
+        const TICK: std::time::Duration = std::time::Duration::from_secs(10);
+        std::thread::spawn(move || {
+            let mut last = std::time::SystemTime::now();
+            loop {
+                std::thread::sleep(TICK);
+                // L'horloge murale avance pendant la veille, pas le sommeil du thread :
+                // un écart bien plus grand que le pas trahit une sortie de veille.
+                let now = std::time::SystemTime::now();
+                let woke = now
+                    .duration_since(last)
+                    .is_ok_and(|gap| gap > TICK * 3);
+                last = now;
+                let free = printscreen_is_free();
+                if woke || free {
+                    if woke {
+                        log!("sortie de veille : nouvelle réservation des raccourcis");
+                    } else {
+                        log!("Impr. écran n'était plus réservée : nouvelle réservation");
+                    }
+                    let handle = app.clone();
+                    let _ = app.run_on_main_thread(move || register_all(&handle));
+                }
             }
         });
     }

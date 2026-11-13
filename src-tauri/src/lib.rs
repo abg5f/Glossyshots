@@ -7,11 +7,13 @@
 //! Les pixels transitent en binaire brut (IPC `Response` / corps `Raw`),
 //! jamais en base64 : c'est ce qui garde l'ouverture de l'overlay instantanée.
 
+mod log;
 mod settings;
 mod shortcut;
 mod tray;
 
-use std::sync::atomic::{AtomicBool, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
+use std::time::Duration;
 use std::sync::Mutex;
 
 use serde::Serialize;
@@ -19,6 +21,8 @@ use tauri::ipc::{InvokeBody, Request, Response};
 use tauri::{AppHandle, Emitter, Manager, PhysicalPosition, PhysicalSize, WindowEvent};
 
 pub use settings::Settings;
+
+use crate::log::log;
 
 /// Image RGBA 8 bits, non prémultipliée.
 pub struct Shot {
@@ -133,6 +137,10 @@ pub struct AppState {
     pub busy: AtomicBool,
     /// Début de la capture en cours : sert à détecter une capture restée bloquée.
     pub busy_since: Mutex<Option<std::time::Instant>>,
+    /// Numéro de la capture en cours : un délai de garde ne vise que « sa » capture.
+    pub capture_seq: AtomicU64,
+    /// Capture découpée envoyée à l'éditeur mais pas encore prise en charge par lui.
+    pub editor_pending: AtomicBool,
     pub printscreen_registered: AtomicBool,
 }
 
@@ -165,22 +173,23 @@ pub fn start_capture(app: &AppHandle) {
         if !stale {
             return;
         }
-        eprintln!("[glossyshots] capture précédente bloquée : réinitialisation");
+        log!("capture précédente bloquée : réinitialisation");
         if let Some(o) = overlay {
             let _ = o.hide();
         }
     }
     *state.busy_since.lock().unwrap() = Some(std::time::Instant::now());
+    let seq = state.capture_seq.fetch_add(1, Ordering::SeqCst) + 1;
     let app = app.clone();
     tauri::async_runtime::spawn_blocking(move || {
-        if let Err(err) = capture_under_cursor(&app) {
-            eprintln!("[glossyshots] capture impossible : {err}");
+        if let Err(err) = capture_under_cursor(&app, seq) {
+            log!("capture impossible : {err}");
             app.state::<AppState>().busy.store(false, Ordering::SeqCst);
         }
     });
 }
 
-fn capture_under_cursor(app: &AppHandle) -> Result<(), String> {
+fn capture_under_cursor(app: &AppHandle, seq: u64) -> Result<(), String> {
     // L'éditeur ne doit pas apparaître dans la nouvelle capture.
     if let Some(editor) = app.get_webview_window("editor") {
         if editor.is_visible().unwrap_or(false) {
@@ -224,7 +233,48 @@ fn capture_under_cursor(app: &AppHandle) -> Result<(), String> {
     overlay
         .emit("overlay:capture", CaptureMeta { width, height })
         .map_err(|e| e.to_string())?;
+    watch_overlay(app, seq);
     Ok(())
+}
+
+/// Délai de garde : si la sélection n'est pas à l'écran 1,5 s après la capture, la page
+/// de l'overlay ne répond plus (cas vu après une mise en veille). On la recharge ; au
+/// chargement elle demande `capture_pending` et reprend la capture en attente.
+fn watch_overlay(app: &AppHandle, seq: u64) {
+    let app = app.clone();
+    std::thread::spawn(move || {
+        std::thread::sleep(Duration::from_millis(1500));
+        let state = app.state::<AppState>();
+        let Some(overlay) = app.get_webview_window("overlay") else { return };
+        let stuck = state.busy.load(Ordering::SeqCst)
+            && state.capture_seq.load(Ordering::SeqCst) == seq
+            && !overlay.is_visible().unwrap_or(false);
+        if stuck {
+            log!("la sélection ne s'affiche pas : rechargement de l'overlay");
+            if let Err(err) = overlay.reload() {
+                log!("rechargement de l'overlay impossible : {err}");
+            }
+        }
+    });
+}
+
+/// Même garde pour l'éditeur : sans accusé de réception sous 2 s, on recharge la page,
+/// qui récupère la capture en attente (et la copie) à son démarrage.
+fn watch_editor(app: &AppHandle) {
+    let app = app.clone();
+    std::thread::spawn(move || {
+        std::thread::sleep(Duration::from_secs(2));
+        if !app.state::<AppState>().editor_pending.load(Ordering::SeqCst) {
+            return;
+        }
+        log!("l'éditeur ne répond pas : rechargement");
+        if let Some(editor) = app.get_webview_window("editor") {
+            if let Err(err) = editor.reload() {
+                log!("rechargement de l'éditeur impossible : {err}");
+            }
+        }
+        show_editor(&app);
+    });
 }
 
 pub fn show_editor(app: &AppHandle) {
@@ -279,12 +329,18 @@ fn commit_selection(app: AppHandle, x: u32, y: u32, width: u32, height: u32) -> 
     let meta = CaptureMeta { width: crop.width, height: crop.height };
     *state.crop.lock().unwrap() = Some(crop);
     *state.capture.lock().unwrap() = None;
+    state.editor_pending.store(true, Ordering::SeqCst);
+    let _ = app.emit_to("editor", "editor:capture", meta);
+    // L'éditeur s'affiche AVANT que l'overlay ne disparaisse : tant que l'overlay a le
+    // focus, Windows nous laisse passer une fenêtre au premier plan. Dans l'ordre inverse,
+    // le focus repart vers l'app précédente et l'éditeur peut rester caché derrière.
+    show_editor(&app);
     if let Some(overlay) = app.get_webview_window("overlay") {
         let _ = overlay.hide();
     }
-    state.busy.store(false, Ordering::SeqCst);
-    let _ = app.emit_to("editor", "editor:capture", meta);
     show_editor(&app);
+    state.busy.store(false, Ordering::SeqCst);
+    watch_editor(&app);
     Ok(())
 }
 
@@ -298,7 +354,19 @@ fn cancel_capture(app: AppHandle) {
     }
 }
 
+/// Une capture attend d'être affichée (l'overlay vient d'être rechargé).
+#[tauri::command]
+fn capture_pending(state: tauri::State<'_, AppState>) -> bool {
+    state.busy.load(Ordering::SeqCst) && state.capture.lock().unwrap().is_some()
+}
+
 // ───────────────────────────── Commandes éditeur ─────────────────────────────
+
+/// Accusé de réception de l'éditeur : renvoie `true` si une nouvelle capture l'attendait.
+#[tauri::command]
+fn take_editor_pending(state: tauri::State<'_, AppState>) -> bool {
+    state.editor_pending.swap(false, Ordering::SeqCst)
+}
 
 #[tauri::command]
 fn get_crop(state: tauri::State<'_, AppState>) -> Result<Response, String> {
@@ -410,7 +478,9 @@ pub fn run() {
             overlay_ready,
             commit_selection,
             cancel_capture,
+            capture_pending,
             get_crop,
+            take_editor_pending,
             request_capture,
             copy_image,
             save_png,
@@ -425,7 +495,14 @@ pub fn run() {
             #[cfg(target_os = "macos")]
             app.set_activation_policy(tauri::ActivationPolicy::Accessory);
 
+            log::init(app.handle());
+            log!(
+                "démarrage {} ({})",
+                app.package_info().version,
+                std::env::args().skip(1).collect::<Vec<_>>().join(" ")
+            );
             let first_run = settings::load(app.handle());
+            settings::init_autostart(app.handle());
             shortcut::register_all(app.handle());
             shortcut::start_watchdog(app.handle());
             tray::build(app.handle())?;

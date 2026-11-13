@@ -63,6 +63,8 @@ Fenêtres déclarées dans `tauri.conf.json` : `overlay` (cachée, sans bordure,
 - Ajouter un **fond** : entrée dans `backgrounds` (`backgrounds.ts`), noms `{ fr, en }`.
 - Ajouter un **texte** : clé dans les deux dictionnaires de `i18n.ts` (le type `Key` force la parité FR/EN).
 - Ajouter une **commande native** : `#[tauri::command]` + `generate_handler!` dans `lib.rs`.
+- **Journal** : `log!(...)` (`log.rs`) plutôt que `eprintln!`, écrit dans `%LOCALAPPDATA%\io.github.abg5f.glossyshots\logs\glossyshots.log` (local, jamais envoyé). Premier réflexe pour diagnostiquer un raccourci ou une fenêtre qui ne répond plus.
+- **Fenêtres qui ne répondent plus** (vu après une mise en veille) : délais de garde dans `lib.rs` (`watch_overlay` 1,5 s, `watch_editor` 2 s) qui rechargent la page ; au chargement, elle reprend le travail en attente via `capture_pending` / `take_editor_pending`.
 - Design : un seul accent, pas de tiret cadratin dans les textes, animations 120–240 ms en ease-out, `prefers-reduced-motion` respecté.
 
 ## Déploiement
